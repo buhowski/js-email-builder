@@ -1,6 +1,6 @@
+.DC_Store
+
 node_modules/
 email.html
 package-lock.json
-*_email.js
-
-.DC_Store
+*_local*.js

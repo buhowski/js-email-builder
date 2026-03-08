@@ -1,4 +1,4 @@
-// node server.js — watch email-builder.js or _email.js, serve email.html with live reload
+// node server.js — watch email-builder.js or _local.js, serve email.html with live reload
 
 import http from 'http';
 import fs, { existsSync } from 'fs';
@@ -6,7 +6,7 @@ import { execSync } from 'child_process';
 import chokidar from 'chokidar';
 
 const PORT = 3030;
-const SOURCE = existsSync('_email.js') ? '_email.js' : 'email-builder.js';
+const SOURCE = existsSync('_local.js') ? '_local.js' : 'email-builder.js';
 
 const inject = (html) =>
 	html.replace(
