@@ -1,21 +1,20 @@
-// server.js — watch email-builder.js, serve output.html with live reload
+// node server.js — watch email-builder.js or _email.js, serve email.html with live reload
 
 import http from 'http';
-import fs from 'fs';
-import path from 'path';
+import fs, { existsSync } from 'fs';
 import { execSync } from 'child_process';
 import chokidar from 'chokidar';
 
 const PORT = 3030;
-const SOURCE = 'email-builder.js';
+const SOURCE = existsSync('_email.js') ? '_email.js' : 'email-builder.js';
 
 const inject = (html) =>
 	html.replace(
 		'</body>',
 		`<script>
-    const es = new EventSource("/sse");
-    es.onmessage = () => location.reload();
-  </script></body>`,
+  const es = new EventSource("/sse");
+  es.onmessage = () => location.reload();
+</script></body>`,
 	);
 
 let clients = [];
@@ -42,11 +41,10 @@ http
 			return;
 		}
 		const html = fs.readFileSync('email.html', 'utf8');
-
 		res.writeHead(200, { 'Content-Type': 'text/html' });
 		res.end(inject(html));
 	})
-	.listen(PORT, () => console.log(`http://localhost:${PORT}`));
+	.listen(PORT, () => console.log(`http://localhost:${PORT} — ${SOURCE}`));
 
 chokidar.watch(SOURCE).on('change', rebuild);
 rebuild();

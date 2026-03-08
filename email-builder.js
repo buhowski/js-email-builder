@@ -13,20 +13,20 @@ const C = {
 };
 
 // ─── STYLES
-const pad = { x: 35, blockB: 20, headB: 25 };
+const pad = { x: 35, blockBtm: 20, headBtm: 25 };
 
 const pStyle = `margin:0;font-size:16px;line-height:1.5;color:${C.text}`;
 
 const S = {
-	cell: `padding:0 ${pad.x}px ${pad.blockB}px`,
+	cell: `padding:0 ${pad.x}px ${pad.blockBtm}px`,
 
-	cellHead: `padding:40px ${pad.x}px 0`,
+	cellHead: `padding:0 ${pad.x}px 0`,
 
-	headText: `font-weight:normal;line-height:1.3`,
+	headText: `margin:0;font-weight:normal;line-height:1.3`,
 
 	hr: `border:none;border-top:1px solid #42413c;margin:0`,
 
-	link: `display:inline;white-space:nowrap;border-radius:5px;line-height:1.9;padding:4px 11px;color:#ffffff;text-decoration:none;background-color:#006faf;box-shadow:inset 1px 1px 10px #003554,inset -1px -1px 10px #003554,0 0 2px #000000`,
+	link: `display:inline;white-space:nowrap;border-radius:5px;line-height:1.9;margin:2px; padding:4px 11px;color:#ffffff;text-decoration:none;background-color:#006faf;box-shadow:inset 1px 1px 10px #003554,inset -1px -1px 10px #003554,0 0 2px #000000`,
 
 	icon: (bg) =>
 		`display:inline-block;width:52px;height:52px;background-color:${bg};border-radius:50%;text-align:center;line-height:50px`,
@@ -52,17 +52,22 @@ const link = (label, url) =>
 	`<a href="${url}" target="_blank" rel="noopener noreferrer" style="${S.link};">${label}</a>`;
 
 // ─── BLOCKS
-const h2 = (content) => `
+const header = () => `
   <tr>
-    <td style="${S.cellHead};">
-      <p style="margin:0 0 ${pad.headB}px;${S.headText};color:${C.accent1};font-size:27px;">${content}</p>
+    <td style="padding:40px ${pad.x}px 0;"></td>
+  </tr>`;
+
+const h2 = (content, top = 20) => `
+  <tr>
+    <td style="padding:${top}px ${pad.x}px ${pad.headBtm}px;">
+      <p style="${S.headText};color:${C.accent1};font-size:27px;">${content}</p>
     </td>
   </tr>`;
 
-const h3 = (content) => `
+const h3 = (content, top = 20) => `
   <tr>
-    <td style="${S.cellHead};">
-      <p style="margin:0 0 ${pad.headB}px;${S.headText};color:${C.accent2};font-size:21px;">${content}</p>
+    <td style="padding:${top}px ${pad.x}px ${pad.headBtm}px;">
+      <p style="${S.headText};color:${C.accent2};font-size:22px;">${content}</p>
     </td>
   </tr>`;
 
@@ -76,7 +81,7 @@ const text = (content) => `
 const textLink = (content, label, url) => `
   <tr>
     <td style="${S.cell};">
-      <p style="${pStyle};">${content}</p>
+      <p style="${pStyle}; margin-bottom: 2px;">${content}</p>
 
       <a href="${url}" target="_blank" rel="noopener noreferrer" style="${S.link};">${label}</a>
     </td>
@@ -128,17 +133,26 @@ const compile = (blocks, bg = C.bg) => `<!DOCTYPE html>
 </body>
 </html>`;
 
+export { compile, h2, h3, text, link, textLink, divider, footer, icons };
+
 // ─── COMPOSE
 const email = compile([
-	h2('Heading h2'),
-	h3('Heading h3'),
+	header(),
+
+	h2('Heading h2', 0),
+
 	text('Paragraph text.'),
+	text('Paragraph text.'),
+
+	h3('Heading h3'),
+
 	text(`Бізнес-план ${link('buhowski.dev/vision', 'https://buhowski.dev/vision')}`),
+
 	textLink('Бізнес-план', 'buhowski.dev/vision', 'https://buhowski.dev/vision'),
 
 	divider(),
 
-	footer('2026 © Olexander Tsiomakh', [
+	footer(`${new Date().getFullYear()} © Olexander Tsiomakh`, [
 		{ url: 'https://t.me/olexander_tsiomakh', icon: icons.tg },
 		{ url: 'https://www.instagram.com/buhowski', icon: icons.ig },
 		{ url: 'https://www.linkedin.com/in/olexander', icon: icons.li },
@@ -147,4 +161,3 @@ const email = compile([
 ]);
 
 fs.writeFileSync('email.html', email);
-console.log('email.html');

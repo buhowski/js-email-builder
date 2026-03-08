@@ -23,8 +23,8 @@ npm init -y && npm install chokidar
 
 ## Usage
 ```bash
-node email-builder.js        # one-time build → email.html
-node server.js               # build + live reload at localhost:3030
+npm run build            # one-time build → email.html
+npm run dev              # build + live reload at localhost:3030
 ```
 
 ## Blocks

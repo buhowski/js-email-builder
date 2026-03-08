@@ -1,15 +1,17 @@
 {
-  "name": "html-email-builder",
-  "version": "1.0.0",
-  "description": "",
-  "main": "email-builder.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "chokidar": "^5.0.0"
-  }
+	"name": "html-email-builder",
+	"version": "1.0.0",
+	"description": "Static HTML email compiler with live reload",
+	"main": "email-builder.js",
+	"type": "module",
+	"scripts": {
+		"build": "node email-builder.js",
+		"dev": "node server.js"
+	},
+	"keywords": [],
+	"author": "Olexander Tsiomakh",
+	"license": "ISC",
+	"dependencies": {
+		"chokidar": "^5.0.0"
+	}
 }
