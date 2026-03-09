@@ -1,4 +1,6 @@
-.DC_Store
+.DS_Store
+**/.DS_Store
+Thumbs.db
 
 node_modules/
 email.html

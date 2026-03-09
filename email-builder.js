@@ -4,52 +4,48 @@ import fs from 'fs';
 
 // ─── TOKENS
 const C = {
-	bg: '#232526',
-	box: '#202020',
-	accent1: '#f6b96f',
+	bg: '#0d0d0f',
+	box: '#1c1c1e',
+	boxFooter: '#141416',
+	accent1: '#d39d59',
 	accent2: '#f28b82',
-	text: '#dfdfdf',
-	icon: '#141414',
+	text: '#b0b0b0',
+	icon: '#141416',
+	border: '#252528',
+	borderList: '#3a3a3a',
+	white: '#ffffff',
+	linkColor: '#4d9fd4',
+	listDot: '#eaaf9e',
+	listTitle: '#c0c0c0',
 };
 
-// ─── STYLES
-const pad = { x: 35, blockBtm: 20, headBtm: 25 };
+const pad = { x: 35, blockBtm: 15 };
+const fontSize = { base: '15px', small: '12px', h1: '20px', h2: '18px', h3: '17px' };
 
-const pStyle = `margin:0;font-size:16px;line-height:1.5;color:${C.text}`;
-
-const S = {
+// ─── SHARED STYLES
+const shared = {
+	text: `margin:0;font-size:${fontSize.base};line-height:1.6;color:${C.text}`,
+	link: `display:inline;font-size:${fontSize.base};color:${C.linkColor};text-decoration:none`,
+	headBase: `margin:0;font-weight:normal;line-height:1.3;letter-spacing:0.2px;text-transform:uppercase`,
 	cell: `padding:0 ${pad.x}px ${pad.blockBtm}px`,
-
-	cellHead: `padding:0 ${pad.x}px 0`,
-
-	headText: `margin:0;font-weight:normal;line-height:1.3`,
-
-	hr: `border:none;border-top:1px solid #42413c;margin:0`,
-
-	link: `display:inline;white-space:nowrap;border-radius:5px;line-height:1.9;margin:2px; padding:4px 11px;color:#ffffff;text-decoration:none;background-color:#006faf;box-shadow:inset 1px 1px 10px #003554,inset -1px -1px 10px #003554,0 0 2px #000000`,
-
+	borderList: `border-bottom:1px solid ${C.borderList}`,
+	hr: `border:none;border-top:2px solid ${C.border};margin:0`,
 	icon: (bg) =>
-		`display:inline-block;width:52px;height:52px;background-color:${bg};border-radius:50%;text-align:center;line-height:50px`,
-
-	iconImg: `display:inline-block;vertical-align:middle;border:0`,
+		`display:inline-block;padding:14px;background-color:${bg};border-radius:50%;text-align:center;border:1px solid #333336;`,
+	iconImg: `display:block;vertical-align:middle;border:0`,
 };
 
 // ─── ICONS
-const toBase64 = (path) => {
-	const data = fs.readFileSync(path).toString('base64');
-	return `data:image/png;base64,${data}`;
-};
-
 const icons = {
-	tg: toBase64('./assets/tg.png'),
-	ig: toBase64('./assets/ig.png'),
-	li: toBase64('./assets/in.png'),
-	em: toBase64('./assets/mail.png'),
+	tg: 'https://buhowski.dev/assets/email/telegram.png',
+	ig: 'https://buhowski.dev/assets/email/instagram.png',
+	li: 'https://buhowski.dev/assets/email/linkedin.png',
+	em: 'https://buhowski.dev/assets/email/email.png',
 };
 
 // ─── HELPERS
 const link = (label, url) =>
-	`<a href="${url}" target="_blank" rel="noopener noreferrer" style="${S.link};">${label}</a>`;
+	`<a href="${url}" target="_blank" rel="noopener noreferrer" style="${shared.link};">${label}</a>`;
 
 // ─── BLOCKS
 const header = () => `
@@ -57,40 +53,64 @@ const header = () => `
     <td style="padding:40px ${pad.x}px 0;"></td>
   </tr>`;
 
+const h1 = (content, top = 0) => `
+  <tr>
+    <td style="padding:${top}px ${pad.x}px ${pad.blockBtm}px;">
+      <p style="margin:0;color:${C.white};font-size:${fontSize.h1};">${content}</p>
+    </td>
+  </tr>`;
+
 const h2 = (content, top = 20) => `
   <tr>
-    <td style="padding:${top}px ${pad.x}px ${pad.headBtm}px;">
-      <p style="${S.headText};color:${C.accent1};font-size:27px;">${content}</p>
+    <td style="padding:${top}px ${pad.x}px ${pad.blockBtm}px;">
+      <p style="${shared.headBase};color:${C.accent1};font-size:${fontSize.h2};">${content}</p>
     </td>
   </tr>`;
 
 const h3 = (content, top = 20) => `
   <tr>
-    <td style="padding:${top}px ${pad.x}px ${pad.headBtm}px;">
-      <p style="${S.headText};color:${C.accent2};font-size:22px;">${content}</p>
+    <td style="padding:${top}px ${pad.x}px ${pad.blockBtm}px;">
+      <p style="${shared.headBase};color:${C.accent2};font-size:${fontSize.h3};">${content}</p>
     </td>
   </tr>`;
 
 const text = (content) => `
   <tr>
-    <td style="${S.cell};">
-      <p style="margin:0;${pStyle};">${content}</p>
+    <td style="${shared.cell};">
+      <p style="${shared.text};">${content}</p>
     </td>
   </tr>`;
 
-const textLink = (content, label, url) => `
+const linkList = (items) => `
   <tr>
-    <td style="${S.cell};">
-      <p style="${pStyle}; margin-bottom: 2px;">${content}</p>
-
-      <a href="${url}" target="_blank" rel="noopener noreferrer" style="${S.link};">${label}</a>
+    <td style="padding:15px ${pad.x}px 30px;">
+      <table cellpadding="0" cellspacing="0" border="0" width="100%">
+        ${items
+					.map(({ title, label, url }, i) => {
+						const borderList = i < items.length - 1 ? shared.borderList : '';
+						const padList = 14;
+						return `
+        <tr>
+          <td style="padding:${padList}px 0;${borderList};width:6px;">
+            <table cellpadding="0" cellspacing="0" border="0"><tr><td width="4" height="4" style="width:4px;height:4px;background-color:${C.listDot};border-radius:50%;line-height:0;">&nbsp;</td></tr></table>
+          </td>
+          <td style="padding:${padList}px 6px ${padList}px 10px;${borderList};">
+            <span style="font-size:${fontSize.base};color:${C.listTitle};">${title}</span>
+          </td>
+          <td style="padding:${padList}px 0;${borderList};" align="right">
+            <a href="${url}" target="_blank" rel="noopener noreferrer" style="${shared.link};">${label}</a>
+          </td>
+        </tr>`;
+					})
+					.join('')}
+      </table>
     </td>
   </tr>`;
 
 const divider = () => `
   <tr>
-    <td style="padding:15px ${pad.x}px 5px;">
-      <hr style="${S.hr};" />
+    <td style="padding:20px 0 0;">
+      <hr style="${shared.hr};" />
     </td>
   </tr>`;
 
@@ -100,12 +120,20 @@ const footer = (copy, links) => {
 
 	return `
   <tr>
-    <td bgcolor="${C.box}" align="center" style="padding:30px ${pad.x}px 40px; ">
-      <p style="margin:0 0 25px;font-size:12px;color:${C.text};">${resolvedCopy}</p>
+    <td bgcolor="${C.boxFooter}" align="center" style="background-color:${C.boxFooter};padding:35px ${pad.x}px 40px;">
+      <p style="margin:0 0 25px;font-size:${fontSize.small};color:#545454;">${resolvedCopy}</p>
 
       <table cellpadding="0" cellspacing="0" border="0" align="center">
         <tr>
-          ${links.map(({ url, icon }) => `<td style="padding:0 7px;"><a href="${url}" target="_blank" rel="noopener noreferrer" style="${S.icon(C.icon)};"><img src="${icon}" alt="" width="21" height="21" style="${S.iconImg};" /></a></td>`).join('')}
+          ${links
+						.map(
+							({ url, icon }) => `<td style="padding:0 6px;">
+            <a href="${url}" target="_blank" rel="noopener noreferrer" style="${shared.icon(C.box)};">
+              <img src="${icon}" alt="" width="22" height="22" style="${shared.iconImg};" />
+            </a>
+          </td>`,
+						)
+						.join('')}
         </tr>
       </table>
     </td>
@@ -114,17 +142,17 @@ const footer = (copy, links) => {
 
 // ─── COMPILE
 const compile = (blocks, bg = C.bg) => `<!DOCTYPE html>
-<html lang="en">
+<html lang="ukr">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1.0" />
   <title>Email</title>
 </head>
 <body style="margin:0;padding:0;background:${bg};font-family:Helvetica,Arial,sans-serif;">
-  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <table width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="${bg}" style="width:100%;background:${bg};font-family:Helvetica,Arial,sans-serif;font-size:${fontSize.base};font-weight:normal;color-scheme:dark;">
     <tr>
-      <td align="center" style="padding:40px 16px;">
-        <table width="600" cellpadding="0" cellspacing="0" border="0" bgcolor="${C.box}" style="width:100%;max-width:600px;background:${C.box};border-radius:20px;overflow:hidden;box-shadow:0 0 10px #000000;">
+      <td align="center" style="padding:40px 10px;">
+        <table width="610" cellpadding="0" cellspacing="0" border="0" bgcolor="${C.box}" style="width:100%;max-width:610px;background:${C.box};border-radius:20px;overflow:hidden;box-shadow:0 0 10px #000000;border:2px solid ${C.border};">
           ${blocks.join('\n')}
         </table>
       </td>
@@ -133,22 +161,53 @@ const compile = (blocks, bg = C.bg) => `<!DOCTYPE html>
 </body>
 </html>`;
 
-export { compile, h2, h3, text, link, textLink, divider, footer, icons };
+export { compile, header, h1, h2, h3, text, link, linkList, divider, footer, icons };
 
 // ─── COMPOSE
 const email = compile([
 	header(),
 
-	h2('Heading h2', 0),
+	text('Привіт.'),
 
-	text('Paragraph text.'),
-	text('Paragraph text.'),
+	text(
+		'Я Олександр — ідейний розробник, сценарист і дослідник. Спроєктував модель незалежної екосистеми у вигляді журналу та соцмережі — шукаю співзасновників і партнерів.',
+	),
 
-	h3('Heading h3'),
+	h2('Про проєкт'),
 
-	text(`Бізнес-план ${link('buhowski.dev/vision', 'https://buhowski.dev/vision')}`),
+	text(
+		'Це розважальне й контркультурне медіа, яке поступово еволюціонує у кіновиробництво, геймдев і розробку технологій.',
+	),
 
-	textLink('Бізнес-план', 'buhowski.dev/vision', 'https://buhowski.dev/vision'),
+	text(
+		'Журнал і платформа формують аудиторію, а згодом інтегруються стрімінгова відеоплатформа і ігровий хаб для реалізації власних проєктів.',
+	),
+
+	text(`Презентація: ${link('buhowski.dev/vision', 'https://buhowski.dev/vision')}`),
+
+	h2('Пропозиція'),
+
+	text(
+		"Тут з'являєтеся ви — люди, які мені імпонують, з критичною мозковою активністю, схожою оцінкою реальності та вайбом інтелектуального хуліганства.",
+	),
+
+	text(
+		'Розглянули б ви можливість долучитися — як співзасновник, партнер, консультант чи кріейтор окремих проєктів? (всі ідеї — нижче)',
+	),
+
+	linkList([
+		{ title: 'Бізнес-план', label: 'buhowski.dev/vision', url: 'https://buhowski.dev/vision' },
+		{ title: 'Стратегія', label: 'buhowski.dev/mvp', url: 'https://buhowski.dev/mvp' },
+		{ title: 'Проєкти кіно', label: 'buhowski.dev/cinema', url: 'https://buhowski.dev/cinema' },
+		{ title: 'Проєкти геймдев', label: 'buhowski.dev/games', url: 'https://buhowski.dev/games' },
+		{
+			title: 'Презентаційні шоу',
+			label: 'buhowski.dev/self-presentation',
+			url: 'https://buhowski.dev/self-presentation',
+		},
+	]),
+
+	text('Буду радий відповіді — напишіть, деталі обговоримо.'),
 
 	divider(),
 
