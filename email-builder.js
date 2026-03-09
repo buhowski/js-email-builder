@@ -53,13 +53,6 @@ const header = () => `
     <td style="padding:40px ${pad.x}px 0;"></td>
   </tr>`;
 
-const h1 = (content, top = 0) => `
-  <tr>
-    <td style="padding:${top}px ${pad.x}px ${pad.blockBtm}px;">
-      <p style="margin:0;color:${C.white};font-size:${fontSize.h1};">${content}</p>
-    </td>
-  </tr>`;
-
 const h2 = (content, top = 20) => `
   <tr>
     <td style="padding:${top}px ${pad.x}px ${pad.blockBtm}px;">
@@ -163,7 +156,7 @@ const compile = (blocks, bg = C.bg) => `<!DOCTYPE html>
 </body>
 </html>`;
 
-export { compile, header, h1, h2, h3, text, link, linkList, divider, footer, icons };
+export { compile, header, h2, h3, text, link, linkList, divider, footer, icons };
 
 // ─── COMPOSE
 const email = compile([
