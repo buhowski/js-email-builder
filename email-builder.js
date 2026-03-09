@@ -20,7 +20,7 @@ const C = {
 };
 
 const pad = { x: 35, blockBtm: 15 };
-const fontSize = { base: '15px', small: '12px', h1: '20px', h2: '18px', h3: '17px' };
+const fontSize = { base: '15px', small: '13px', h1: '20px', h2: '18px', h3: '17px' };
 
 // ─── SHARED STYLES
 const shared = {
@@ -121,7 +121,9 @@ const footer = (copy, links) => {
 	return `
   <tr>
     <td bgcolor="${C.boxFooter}" align="center" style="background-color:${C.boxFooter};padding:35px ${pad.x}px 40px;">
-      <p style="margin:0 0 25px;font-size:${fontSize.small};color:#545454;">${resolvedCopy}</p>
+      <p style="margin:0 0 25px;text-align:center;">
+        <a href="https://buhowski.dev" target="_blank" rel="noopener noreferrer" style="font-size:${fontSize.small};color:#545454;text-decoration:none;">${resolvedCopy}</a>
+      </p>
 
       <table cellpadding="0" cellspacing="0" border="0" align="center">
         <tr>
@@ -207,7 +209,7 @@ const email = compile([
 		},
 	]),
 
-	text('Буду радий відповіді — напишіть, деталі обговоримо.'),
+	text('Буду радий відповіді — напишіть, обговоримо деталі.'),
 
 	divider(),
 
