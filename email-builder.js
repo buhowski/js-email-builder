@@ -6,10 +6,10 @@ import fs from 'fs';
 const C = {
 	bg: '#121212',
 	box: '#1c1c1e',
-	boxFooter: '#141416',
+	boxFooter: '#141414',
 	accent1: '#d39d59',
 	accent2: '#f28b82',
-	text: '#b0b0b0',
+	text: '#b2b2b2',
 	border: '#282828',
 	borderList: '#333336',
 	white: '#ffffff',
@@ -80,12 +80,14 @@ const linkList = (items) => `
 					.map(({ title, label, url }, i) => {
 						const borderList = i < items.length - 1 ? shared.borderList : '';
 						const padList = 14;
+						const dotWidth = 4;
+
 						return `
         <tr>
-          <td style="padding:${padList}px 0;${borderList};width:6px;">
-            <table cellpadding="0" cellspacing="0" border="0"><tr><td width="4" height="4" style="width:4px;height:4px;background-color:${C.listDot};border-radius:50%;line-height:0;">&nbsp;</td></tr></table>
+          <td style="padding:${padList}px 0;${borderList};width:${dotWidth}px;">
+            <table cellpadding="0" cellspacing="0" border="0"><tr><td width="${dotWidth}" height="${dotWidth}" style="width:${dotWidth}px;height:${dotWidth}px;background-color:${C.listDot};border-radius:50%;line-height:0;">&nbsp;</td></tr></table>
           </td>
-          <td style="padding:${padList}px 6px ${padList}px 10px;${borderList};">
+          <td style="padding:${padList}px 10px;${borderList};">
             <span style="font-size:${fontSize.base};color:${C.listTitle};">${title}</span>
           </td>
           <td style="padding:${padList}px 0;${borderList};" align="right">
