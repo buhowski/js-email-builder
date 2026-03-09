@@ -10,7 +10,7 @@ const C = {
 	accent1: '#d39d59',
 	accent2: '#f28b82',
 	text: '#b2b2b2',
-	border: '#393939',
+	border: '#363636',
 	borderList: '#37373b',
 	white: '#ffffff',
 	linkColor: '#4d9fd4',
