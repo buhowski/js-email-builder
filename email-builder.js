@@ -4,23 +4,22 @@ import fs from 'fs';
 
 // ─── TOKENS
 const C = {
-	bg: '#0d0d0f',
+	bg: '#121212',
 	box: '#1c1c1e',
 	boxFooter: '#141416',
 	accent1: '#d39d59',
 	accent2: '#f28b82',
 	text: '#b0b0b0',
-	icon: '#141416',
-	border: '#252528',
-	borderList: '#3a3a3a',
+	border: '#282828',
+	borderList: '#333336',
 	white: '#ffffff',
 	linkColor: '#4d9fd4',
 	listDot: '#eaaf9e',
 	listTitle: '#c0c0c0',
 };
 
-const pad = { x: 35, blockBtm: 15 };
-const fontSize = { base: '15px', small: '13px', h1: '20px', h2: '18px', h3: '17px' };
+const pad = { x: 30, blockBtm: 15 };
+const fontSize = { base: '15px', small: '14px', h2: '18px', h3: '17px' };
 
 // ─── SHARED STYLES
 const shared = {
@@ -30,9 +29,8 @@ const shared = {
 	cell: `padding:0 ${pad.x}px ${pad.blockBtm}px`,
 	borderList: `border-bottom:1px solid ${C.borderList}`,
 	hr: `border:none;border-top:2px solid ${C.border};margin:0`,
-	icon: (bg) =>
-		`display:inline-block;padding:14px;background-color:${bg};border-radius:50%;text-align:center;border:1px solid #333336;`,
-	iconImg: `display:block;vertical-align:middle;border:0`,
+	icon: `display:inline-block;overflow:hidden;background-color:${C.bg};border-radius:50%;text-align:center;border:1px solid ${C.borderList};`,
+	iconImg: `display:block;vertical-align:middle;border:0;`,
 };
 
 // ─── ICONS
@@ -110,12 +108,13 @@ const divider = () => `
 const footer = (copy, links) => {
 	const year = new Date().getFullYear();
 	const resolvedCopy = copy.replace(/\d{4}/, year);
+	const iconWidth = 52;
 
 	return `
   <tr>
     <td bgcolor="${C.boxFooter}" align="center" style="background-color:${C.boxFooter};padding:35px ${pad.x}px 40px;">
       <p style="margin:0 0 25px;text-align:center;">
-        <a href="https://buhowski.dev" target="_blank" rel="noopener noreferrer" style="font-size:${fontSize.small};color:#545454;text-decoration:none;">${resolvedCopy}</a>
+        <a href="https://buhowski.dev" target="_blank" rel="noopener noreferrer" style="font-size:${fontSize.small};color:#666666;text-decoration:none;">${resolvedCopy}</a>
       </p>
 
       <table cellpadding="0" cellspacing="0" border="0" align="center">
@@ -123,8 +122,8 @@ const footer = (copy, links) => {
           ${links
 						.map(
 							({ url, icon }) => `<td style="padding:0 6px;">
-            <a href="${url}" target="_blank" rel="noopener noreferrer" style="${shared.icon(C.box)};">
-              <img src="${icon}" alt="" width="22" height="22" style="${shared.iconImg};" />
+            <a href="${url}" target="_blank" rel="noopener noreferrer" style="${shared.icon};">
+              <img src="${icon}" alt="" width="${iconWidth}" height="${iconWidth}" style="${shared.iconImg};" />
             </a>
           </td>`,
 						)
@@ -144,9 +143,9 @@ const compile = (blocks, bg = C.bg) => `<!DOCTYPE html>
   <title>Email</title>
 </head>
 <body style="margin:0;padding:0;background:${bg};font-family:Helvetica,Arial,sans-serif;">
-  <table width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="${bg}" style="width:100%;background:${bg};font-family:Helvetica,Arial,sans-serif;font-size:${fontSize.base};font-weight:normal;color-scheme:dark;">
+  <table width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="${bg}" style="width:100%;background:${bg};font-family:Helvetica,Arial,sans-serif;font-size:${fontSize.base};font-weight:normal;">
     <tr>
-      <td align="center" style="padding:40px 10px;">
+      <td align="center" style="padding:45px 6px;">
         <table width="610" cellpadding="0" cellspacing="0" border="0" bgcolor="${C.box}" style="width:100%;max-width:610px;background:${C.box};border-radius:20px;overflow:hidden;box-shadow:0 0 10px #000000;border:2px solid ${C.border};">
           ${blocks.join('\n')}
         </table>
