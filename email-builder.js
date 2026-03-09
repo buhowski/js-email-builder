@@ -5,12 +5,12 @@ import fs from 'fs';
 // ─── TOKENS
 const C = {
 	bg: '#222222',
-	box: '#1c1c1e',
+	box: '#1a1a1d',
 	boxFooter: '#0d0d0d',
 	accent1: '#d39d59',
 	accent2: '#f28b82',
 	text: '#b2b2b2',
-	border: '#303030',
+	border: '#393939',
 	borderList: '#37373b',
 	white: '#ffffff',
 	linkColor: '#4d9fd4',
