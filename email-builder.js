@@ -4,14 +4,14 @@ import fs from 'fs';
 
 // ─── TOKENS
 const C = {
-	bg: '#121212',
+	bg: '#222222',
 	box: '#1c1c1e',
-	boxFooter: '#141414',
+	boxFooter: '#0d0d0d',
 	accent1: '#d39d59',
 	accent2: '#f28b82',
 	text: '#b2b2b2',
-	border: '#282828',
-	borderList: '#333336',
+	border: '#303030',
+	borderList: '#37373b',
 	white: '#ffffff',
 	linkColor: '#4d9fd4',
 	listDot: '#eaaf9e',
@@ -20,15 +20,16 @@ const C = {
 
 const pad = { x: 30, blockBtm: 15 };
 const fontSize = { base: '15px', small: '14px', h2: '18px', h3: '17px' };
+const borderWidth = 2;
 
 // ─── SHARED STYLES
 const shared = {
 	text: `margin:0;font-size:${fontSize.base};line-height:1.6;color:${C.text}`,
 	link: `display:inline;font-size:${fontSize.base};color:${C.linkColor};text-decoration:none`,
-	headBase: `margin:0;font-weight:normal;line-height:1.3;letter-spacing:0.2px;text-transform:uppercase`,
+	headBase: `margin:0;font-weight:normal;line-height:1.3;letter-spacing:0.5px;text-transform:uppercase`,
 	cell: `padding:0 ${pad.x}px ${pad.blockBtm}px`,
 	borderList: `border-bottom:1px solid ${C.borderList}`,
-	hr: `border:none;border-top:2px solid ${C.border};margin:0`,
+	hr: `border:none;border-top:${borderWidth}px solid ${C.border};margin:0`,
 	icon: `display:inline-block;overflow:hidden;background-color:${C.bg};border-radius:50%;text-align:center;border:1px solid ${C.borderList};`,
 	iconImg: `display:block;vertical-align:middle;border:0;`,
 };
@@ -116,7 +117,7 @@ const footer = (copy, links) => {
   <tr>
     <td bgcolor="${C.boxFooter}" align="center" style="background-color:${C.boxFooter};padding:35px ${pad.x}px 40px;">
       <p style="margin:0 0 25px;text-align:center;">
-        <a href="https://buhowski.dev" target="_blank" rel="noopener noreferrer" style="font-size:${fontSize.small};color:#666666;text-decoration:none;">${resolvedCopy}</a>
+        <a href="https://buhowski.dev" target="_blank" rel="noopener noreferrer" style="font-size:${fontSize.small};color:#666666;text-decoration:none;letter-spacing:1px;">${resolvedCopy}</a>
       </p>
 
       <table cellpadding="0" cellspacing="0" border="0" align="center">
@@ -148,7 +149,7 @@ const compile = (blocks, bg = C.bg) => `<!DOCTYPE html>
   <table width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="${bg}" style="width:100%;background:${bg};font-family:Helvetica,Arial,sans-serif;font-size:${fontSize.base};font-weight:normal;">
     <tr>
       <td align="center" style="padding:45px 6px;">
-        <table width="610" cellpadding="0" cellspacing="0" border="0" bgcolor="${C.box}" style="width:100%;max-width:610px;background:${C.box};border-radius:20px;overflow:hidden;box-shadow:0 0 10px #000000;border:2px solid ${C.border};">
+        <table width="610" cellpadding="0" cellspacing="0" border="0" bgcolor="${C.box}" style="width:100%;max-width:610px;background:${C.box};border-radius:20px;overflow:hidden;box-shadow:0 0 10px #000000;border:${borderWidth}px solid ${C.border};">
           ${blocks.join('\n')}
         </table>
       </td>
