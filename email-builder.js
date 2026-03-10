@@ -4,29 +4,29 @@ import fs from 'fs';
 
 // ─── TOKENS
 const C = {
-	bg: '#222222',
-	box: '#1a1a1d',
-	boxFooter: '#0d0d0d',
+	bg: '#212121',
+	box: '#1a1a1e',
+	boxFooter: '#0b0b0d',
 	accent1: '#d39d59',
 	accent2: '#f28b82',
 	text: '#b2b2b2',
-	border: '#363636',
+	border: '#383838',
 	borderList: '#37373b',
 	white: '#ffffff',
 	linkColor: '#4d9fd4',
 	listDot: '#eaaf9e',
-	listTitle: '#c0c0c0',
+	listItemBg: '#1e1e26',
 };
 
-const pad = { x: 30, blockBtm: 15 };
-const fontSize = { base: '15px', small: '14px', h2: '18px', h3: '17px' };
+const pad = { x: 28, blockBtm: 15 };
+const fontSize = { base: '15px', small: '13px', h2: '18px', h3: '15px' };
 const borderWidth = 2;
 
 // ─── SHARED STYLES
 const shared = {
 	text: `margin:0;font-size:${fontSize.base};line-height:1.6;color:${C.text}`,
 	link: `display:inline;font-size:${fontSize.base};color:${C.linkColor};text-decoration:none`,
-	headBase: `margin:0;font-weight:normal;line-height:1.3;letter-spacing:0.5px;text-transform:uppercase`,
+	headBase: `margin:0;font-weight:normal;line-height:1.3;letter-spacing:0.35px;text-transform:uppercase`,
 	cell: `padding:0 ${pad.x}px ${pad.blockBtm}px`,
 	borderList: `border-bottom:1px solid ${C.borderList}`,
 	hr: `border:none;border-top:${borderWidth}px solid ${C.border};margin:0`,
@@ -44,7 +44,7 @@ const icons = {
 
 // ─── HELPERS
 const link = (label, url) =>
-	`<a href="${url}" target="_blank" rel="noopener noreferrer" style="${shared.link};">${label}</a>`;
+	`<a href="${url}" target="_blank" rel="noopener noreferrer" style="${shared.link};white-space:nowrap;">${label}</a>`;
 
 // ─── BLOCKS
 const header = () => `
@@ -75,26 +75,31 @@ const text = (content) => `
 
 const linkList = (items) => `
   <tr>
-    <td style="padding:15px ${pad.x}px 30px;">
+    <td style="padding:0 ${pad.x}px 35px;">
       <table cellpadding="0" cellspacing="0" border="0" width="100%">
         ${items
-					.map(({ title, label, url }, i) => {
-						const borderList = i < items.length - 1 ? shared.borderList : '';
-						const padList = 14;
-						const dotWidth = 4;
-
+					.map(({ title, url }, i) => {
+						const gap =
+							i < items.length - 1
+								? `<tr><td style="height:6px;font-size:0;line-height:0;">&nbsp;</td></tr>`
+								: '';
 						return `
         <tr>
-          <td style="padding:${padList}px 0;${borderList};width:${dotWidth}px;">
-            <table cellpadding="0" cellspacing="0" border="0"><tr><td width="${dotWidth}" height="${dotWidth}" style="width:${dotWidth}px;height:${dotWidth}px;background-color:${C.listDot};border-radius:50%;line-height:0;">&nbsp;</td></tr></table>
+          <td style="border-left:2px solid ${C.accent1};">
+            <a href="${url}" target="_blank" rel="noopener noreferrer" style="display:block;background-color:${C.listItemBg};padding:8px 22px 9px;text-decoration:none;">
+              <table cellpadding="0" cellspacing="0" border="0" width="100%">
+                <tr>
+                  <td style="vertical-align:middle;">
+                    <span style="font-size:${fontSize.base};line-height:1;color:${C.linkColor};">${title}</span>
+                  </td>
+                  <td align="right" style="vertical-align:middle;white-space:nowrap;padding-left:10px;">
+                    <span style="font-size:21px;line-height:1;color:${C.linkColor};"> → </span>
+                  </td>
+                </tr>
+              </table>
+            </a>
           </td>
-          <td style="padding:${padList}px 10px;${borderList};">
-            <span style="font-size:${fontSize.base};color:${C.listTitle};">${title}</span>
-          </td>
-          <td style="padding:${padList}px 0;${borderList};" align="right">
-            <a href="${url}" target="_blank" rel="noopener noreferrer" style="${shared.link};">${label}</a>
-          </td>
-        </tr>`;
+        </tr>${gap}`;
 					})
 					.join('')}
       </table>
@@ -103,7 +108,7 @@ const linkList = (items) => `
 
 const divider = () => `
   <tr>
-    <td style="padding:20px 0 0;">
+    <td style="padding:25px 0 0;">
       <hr style="${shared.hr};" />
     </td>
   </tr>`;
@@ -115,8 +120,8 @@ const footer = (copy, links) => {
 
 	return `
   <tr>
-    <td bgcolor="${C.boxFooter}" align="center" style="background-color:${C.boxFooter};padding:35px ${pad.x}px 40px;">
-      <p style="margin:0 0 25px;text-align:center;">
+    <td bgcolor="${C.boxFooter}" align="center" style="background-color:${C.boxFooter};padding:40px ${pad.x}px;">
+      <p style="margin:0 0 26px;text-align:center;">
         <a href="https://buhowski.dev" target="_blank" rel="noopener noreferrer" style="font-size:${fontSize.small};color:#666666;text-decoration:none;letter-spacing:1px;">${resolvedCopy}</a>
       </p>
 
@@ -145,11 +150,11 @@ const compile = (blocks, bg = C.bg) => `<!DOCTYPE html>
   <meta name="viewport" content="width=device-width,initial-scale=1.0" />
   <title>Email</title>
 </head>
-<body style="margin:0;padding:0;background:${bg};font-family:Helvetica,Arial,sans-serif;">
-  <table width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="${bg}" style="width:100%;background:${bg};font-family:Helvetica,Arial,sans-serif;font-size:${fontSize.base};font-weight:normal;">
+<body style="margin:0;padding:0;background-color:${bg};font-family:Helvetica,Arial,sans-serif;">
+  <table width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="${bg}" style="width:100%;background-color:${bg};font-family:Helvetica,Arial,sans-serif;font-size:${fontSize.base};font-weight:normal;">
     <tr>
       <td align="center" style="padding:45px 6px;">
-        <table width="610" cellpadding="0" cellspacing="0" border="0" bgcolor="${C.box}" style="width:100%;max-width:610px;background:${C.box};border-radius:20px;overflow:hidden;box-shadow:0 0 10px #000000;border:${borderWidth}px solid ${C.border};">
+        <table width="610" cellpadding="0" cellspacing="0" border="0" bgcolor="${C.box}" style="width:100%;max-width:610px;background-color:${C.box};border-radius:20px;overflow:hidden;box-shadow:0 0 10px #000000;border:${borderWidth}px solid ${C.border};">
           ${blocks.join('\n')}
         </table>
       </td>
@@ -192,16 +197,14 @@ const email = compile([
 		'Розглянули б ви можливість долучитися — як співзасновник, партнер, консультант чи кріейтор окремих проєктів? (всі ідеї — нижче)',
 	),
 
+	h3('Sketch Comedy / Talk Show'),
+
 	linkList([
-		{ title: 'Бізнес-план', label: 'buhowski.dev/vision', url: 'https://buhowski.dev/vision' },
-		{ title: 'Стратегія', label: 'buhowski.dev/mvp', url: 'https://buhowski.dev/mvp' },
-		{ title: 'Проєкти кіно', label: 'buhowski.dev/cinema', url: 'https://buhowski.dev/cinema' },
-		{ title: 'Проєкти геймдев', label: 'buhowski.dev/games', url: 'https://buhowski.dev/games' },
-		{
-			title: 'Презентаційні шоу',
-			label: 'buhowski.dev/self-presentation',
-			url: 'https://buhowski.dev/self-presentation',
-		},
+		{ title: 'Бізнес-план', url: 'https://buhowski.dev/vision' },
+		{ title: 'Стратегія', url: 'https://buhowski.dev/mvp' },
+		{ title: 'Проєкти кіно', url: 'https://buhowski.dev/cinema' },
+		{ title: 'Проєкти геймдев', url: 'https://buhowski.dev/games' },
+		{ title: 'Презентаційні шоу', url: 'https://buhowski.dev/self-presentation' },
 	]),
 
 	text('Буду радий відповіді — напишіть, обговоримо деталі.'),
