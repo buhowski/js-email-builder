@@ -13,7 +13,6 @@ const C = {
 	border: '#383838',
 	linkColor: '#5199e1',
 	listItemBg: '#1e2028',
-	borderList: '#37373b',
 };
 
 const pad = { x: 28, blockBtm: 15 };
@@ -22,14 +21,12 @@ const borderWidth = 2;
 
 // ─── SHARED STYLES
 const shared = {
+	cell: `padding:0 ${pad.x}px ${pad.blockBtm}px`,
+	headBase: `margin:0;font-weight:normal;line-height:1.3;letter-spacing:0.35px;text-transform:uppercase`,
 	text: `margin:0;font-size:${fontSize.base};line-height:1.6;color:${C.text}`,
 	link: `display:inline;font-size:${fontSize.base};color:${C.linkColor};text-decoration:none`,
-	headBase: `margin:0;font-weight:normal;line-height:1.3;letter-spacing:0.5px;text-transform:uppercase`,
-	cell: `padding:0 ${pad.x}px ${pad.blockBtm}px`,
-	borderList: `border-bottom:1px solid ${C.borderList}`,
+	icon: `display:inline-block;overflow:hidden;background-color:${C.bg};border-radius:50%;text-align:center;`,
 	hr: `border:none;border-top:${borderWidth}px solid ${C.border};margin:0`,
-	icon: `display:inline-block;overflow:hidden;background-color:${C.bg};border-radius:50%;text-align:center;border:1px solid ${C.borderList};`,
-	iconImg: `display:block;vertical-align:middle;border:0;`,
 };
 
 // ─── ICONS
@@ -42,7 +39,7 @@ const icons = {
 
 // ─── HELPERS
 const link = (label, url) =>
-	`<a href="${url}" target="_blank" rel="noopener noreferrer" style="${shared.link};white-space:nowrap;">${label}</a>`;
+	`<a href="${url}" target="_blank" rel="noopener noreferrer" style="${shared.link};white-space:nowrap;padding:5px 1px;letter-spacing:0.5px;">${label}</a>`;
 
 // ─── BLOCKS
 const header = () => `
@@ -71,6 +68,12 @@ const text = (content) => `
     </td>
   </tr>`;
 
+const listItem = `vertical-align:middle;font-size:${fontSize.base};color:${C.linkColor};`;
+const listPadX = 25;
+const listPadY = 7;
+const listPad = `padding:${listPadY}px 0 8px ${listPadX}px;`;
+const listPadRight = `padding:${listPadY}px ${listPadX}px 8px 10px;`;
+
 const linkList = (items) => `
   <tr>
     <td style="padding:0 ${pad.x + 2}px 35px;">
@@ -84,15 +87,11 @@ const linkList = (items) => `
 						return `
         <tr>
           <td style="border-left:2px solid ${C.accent1};">
-            <a href="${url}" target="_blank" rel="noopener noreferrer" style="display:block;background-color:${C.listItemBg};padding:7px 22px ;text-decoration:none;">
+            <a href="${url}" target="_blank" rel="noopener noreferrer" style="display:block;background-color:${C.listItemBg};text-decoration:none;letter-spacing:0.4px;">
               <table cellpadding="0" cellspacing="0" border="0" width="100%">
                 <tr>
-                  <td style="vertical-align:middle;">
-                    <span style="font-size:${fontSize.base};line-height:1;color:${C.linkColor};">${title}</span>
-                  </td>
-                  <td align="right" style="vertical-align:middle;white-space:nowrap;padding-left:10px;">
-                    <span style="font-size:20px;line-height:1;color:${C.linkColor};"> → </span>
-                  </td>
+                  <td style="${listItem}${listPad}">${title}</td>
+                  <td align="right" style="${listItem}white-space:nowrap;${listPadRight}font-size:20px;">→</td>
                 </tr>
               </table>
             </a>
@@ -114,7 +113,7 @@ const divider = () => `
 const footer = (copy, links) => {
 	const year = new Date().getFullYear();
 	const resolvedCopy = copy.replace(/\d{4}/, year);
-	const iconWidth = 52;
+	const iconWidth = 50;
 
 	return `
   <tr>
@@ -127,9 +126,9 @@ const footer = (copy, links) => {
         <tr>
           ${links
 						.map(
-							({ url, icon }) => `<td style="padding:0 6px;">
+							({ url, icon }) => `<td style="padding:0 5px;">
             <a href="${url}" target="_blank" rel="noopener noreferrer" style="${shared.icon};">
-              <img src="${icon}" alt="" width="${iconWidth}" height="${iconWidth}" style="${shared.iconImg};" />
+              <img src="${icon}" alt="" width="${iconWidth}" height="${iconWidth}" style="display:block;" />
             </a>
           </td>`,
 						)
@@ -142,7 +141,7 @@ const footer = (copy, links) => {
 
 // ─── COMPILE
 const compile = (blocks, bg = C.bg) => `<!DOCTYPE html>
-<html lang="ukr" style="color-scheme:only dark;">
+<html lang="ukr">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1.0" />
@@ -153,7 +152,7 @@ const compile = (blocks, bg = C.bg) => `<!DOCTYPE html>
   <table width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="${bg}" style="width:100%;background-color:${bg};font-family:Helvetica,Arial,sans-serif;font-size:${fontSize.base};font-weight:normal;">
     <tr>
       <td align="center" style="padding:45px 6px;">
-        <table width="610" cellpadding="0" cellspacing="0" border="0" bgcolor="${C.box}" style="width:100%;max-width:610px;background-color:${C.box};border-radius:20px;border:${borderWidth}px solid ${C.border};box-shadow:0 0 10px #000000;overflow:hidden;color-scheme: only dark;">
+        <table width="600" cellpadding="0" cellspacing="0" border="0" bgcolor="${C.box}" style="width:100%;max-width:600px;background-color:${C.box};border-radius:20px;border:${borderWidth}px solid ${C.border};box-shadow:0 0 10px #000000;overflow:hidden;">
           ${blocks.join('\n')}
         </table>
       </td>
@@ -171,42 +170,44 @@ const email = compile([
 	text('Привіт.'),
 
 	text(
-		'Я Олександр — ідейний розробник, сценарист і дослідник. Спроєктував модель незалежної екосистеми у вигляді журналу та соцмережі — шукаю співзасновників і партнерів.',
+		'Я Олександр — ідейний розробник, сценарист і дослідник. Спроєктував незалежний медіапростір у форматі журналу та соціальної платформи.',
 	),
+	text('Шукаю співзасновників, партнерів, консультантів і кріейторів різних напрямів.'),
 
 	h2('Про проєкт'),
 
 	text(
-		'Це розважальне й контркультурне медіа, яке поступово еволюціонує у кіновиробництво, геймдев і розробку технологій.',
+		'Це розважальне контркультурне медіа, яке поступово еволюціонує у кіновиробництво, геймдев і технологічні розробки.',
 	),
 
 	text(
-		'Журнал і платформа формують аудиторію, а згодом інтегруються стрімінгова відеоплатформа і ігровий хаб для реалізації власних проєктів.',
+		'Журнал і соцмережа формують аудиторію та задають авторський контекст, після чого інтегруються стрімінгова платформа та ігровий хаб для запуску власних проєктів.',
 	),
+
+	text('Я на етапі формування команди — є стратегія, сценарії та концепти.'),
 
 	text(`Презентація: ${link('buhowski.dev/vision', 'https://buhowski.dev/vision')}`),
 
 	h2('Пропозиція'),
 
 	text(
-		"Тут з'являєтеся ви — люди, які мені імпонують, з критичною мозковою активністю, схожою оцінкою реальності та вайбом інтелектуального хуліганства.",
+		"Тут з'являєтесь ви — люди, які мені імпонують, з критичним мисленням, схожою оцінкою реальності та вайбом інтелектуального хуліганства.",
 	),
 
 	text(
-		'Розглянули б ви можливість долучитися — як співзасновник, партнер, консультант чи кріейтор окремих проєктів? (всі ідеї — нижче)',
+		'Формат співпраці — на ваш вибір: Партнерство з часткою в корпорації та участь в стратегічному розвитку. Співавторство або консультація в конкретному проєкті. Власний напрям всередині екосистеми — з творчим функціоналом і без обмежень.',
 	),
 
-	h3('1488'),
+	h3('Інші проєкти'),
 
 	linkList([
-		{ title: 'Бізнес-план', url: 'https://buhowski.dev/vision' },
-		{ title: 'Стратегія', url: 'https://buhowski.dev/mvp' },
-		{ title: 'Проєкти кіно', url: 'https://buhowski.dev/cinema' },
-		{ title: 'Проєкти геймдев', url: 'https://buhowski.dev/games' },
-		{ title: 'Презентаційні шоу', url: 'https://buhowski.dev/self-presentation' },
+		{ title: 'Журнал / Стратегія', url: 'https://buhowski.dev/mvp' },
+		{ title: 'Проєкти Кіно', url: 'https://buhowski.dev/cinema' },
+		{ title: 'Проєкти Геймдев', url: 'https://buhowski.dev/games' },
+		{ title: 'Презентаційні Шоу', url: 'https://buhowski.dev/self-presentation' },
 	]),
 
-	text('Буду радий відповіді — напишіть, обговоримо деталі.'),
+	text('Якщо відгукнулось — напишіть. Обговоримо деталі.'),
 
 	divider(),
 
