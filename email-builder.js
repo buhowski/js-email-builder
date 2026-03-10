@@ -118,8 +118,8 @@ const footer = (copy, links) => {
 	return `
   <tr>
     <td bgcolor="${C.boxFooter}" align="center" style="background-color:${C.boxFooter};padding:40px ${pad.x}px;">
-      <p style="margin:0 0 26px;text-align:center;">
-        <a href="https://buhowski.dev" target="_blank" rel="noopener noreferrer" style="font-size:${fontSize.small};color:#666666;text-decoration:none;letter-spacing:1px;">${resolvedCopy}</a>
+      <p style="margin:0 0 27px;text-align:center;">
+        <a href="https://buhowski.dev" target="_blank" rel="noopener noreferrer" style="font-size:${fontSize.small};color:#666666;text-decoration:none;letter-spacing:1px;padding:8px 10px;">${resolvedCopy}</a>
       </p>
 
       <table cellpadding="0" cellspacing="0" border="0" align="center">
