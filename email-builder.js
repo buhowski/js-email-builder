@@ -39,7 +39,7 @@ const icons = {
 
 // ─── HELPERS
 const link = (label, url) =>
-	`<a href="${url}" target="_blank" rel="noopener noreferrer" style="${shared.link};white-space:nowrap;padding:5px 1px;letter-spacing:0.5px;">${label}</a>`;
+	`<a href="${url}" target="_blank" rel="noopener noreferrer" style="${shared.link};white-space:nowrap;padding:6px 1px;letter-spacing:0.5px;">${label}</a>`;
 
 // ─── BLOCKS
 const header = () => `
@@ -68,9 +68,9 @@ const text = (content) => `
     </td>
   </tr>`;
 
-const listItem = `vertical-align:middle;font-size:${fontSize.base};color:${C.linkColor};`;
+const listItem = `vertical-align:middle;font-size:${fontSize.base};line-height: 1;color:${C.linkColor};`;
 const listPadX = 25;
-const listPadY = 7;
+const listPadY = 8;
 const listPad = `padding:${listPadY}px 0 8px ${listPadX}px;`;
 const listPadRight = `padding:${listPadY}px ${listPadX}px 8px 10px;`;
 
