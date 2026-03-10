@@ -5,18 +5,18 @@ import fs from 'fs';
 // ─── TOKENS
 const C = {
 	bg: '#212121',
-	box: '#1a1a1e',
-	boxFooter: '#101013',
+	box: '#1a1a1a',
+	boxFooter: '#121212',
+	border: '#383838',
 	accent1: '#e4a65b',
 	accent2: '#e68383',
-	text: '#bebebe',
-	border: '#383838',
+	text: '#b2b2b2',
 	linkColor: '#5199e1',
 	listItemBg: '#1e2028',
 };
 
 const pad = { x: 28, blockBtm: 15 };
-const fontSize = { base: '15px', small: '13px', h2: '18px', h3: '16px' };
+const fontSize = { base: '15px', small: '12px', h2: '18px', h3: '16px' };
 const borderWidth = 2;
 
 // ─── SHARED STYLES
@@ -25,7 +25,7 @@ const shared = {
 	headBase: `margin:0;font-weight:normal;line-height:1.3;letter-spacing:0.35px;text-transform:uppercase`,
 	text: `margin:0;font-size:${fontSize.base};line-height:1.6;color:${C.text}`,
 	link: `display:inline;font-size:${fontSize.base};color:${C.linkColor};text-decoration:none`,
-	icon: `display:inline-block;overflow:hidden;background-color:${C.bg};border-radius:50%;text-align:center;`,
+	icon: `display:inline-block;overflow:hidden;border-radius:50%;text-align:center;border:2px solid ${C.border};`,
 	hr: `border:none;border-top:${borderWidth}px solid ${C.border};margin:0`,
 };
 
@@ -34,7 +34,7 @@ const icons = {
 	tg: 'https://buhowski.dev/assets/email/telegram.png',
 	ig: 'https://buhowski.dev/assets/email/instagram.png',
 	li: 'https://buhowski.dev/assets/email/linkedin.png',
-	em: 'https://buhowski.dev/assets/email/email.png',
+	em: 'https://buhowski.dev/assets/email/mail.png',
 };
 
 // ─── HELPERS
