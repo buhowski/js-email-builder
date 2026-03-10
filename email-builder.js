@@ -6,27 +6,25 @@ import fs from 'fs';
 const C = {
 	bg: '#212121',
 	box: '#1a1a1e',
-	boxFooter: '#0b0b0d',
-	accent1: '#d39d59',
-	accent2: '#f28b82',
-	text: '#b2b2b2',
+	boxFooter: '#101013',
+	accent1: '#e4a65b',
+	accent2: '#e68383',
+	text: '#bebebe',
 	border: '#383838',
+	linkColor: '#5199e1',
+	listItemBg: '#1e2028',
 	borderList: '#37373b',
-	white: '#ffffff',
-	linkColor: '#4d9fd4',
-	listDot: '#eaaf9e',
-	listItemBg: '#1e1e26',
 };
 
 const pad = { x: 28, blockBtm: 15 };
-const fontSize = { base: '15px', small: '13px', h2: '18px', h3: '15px' };
+const fontSize = { base: '15px', small: '13px', h2: '18px', h3: '16px' };
 const borderWidth = 2;
 
 // ─── SHARED STYLES
 const shared = {
 	text: `margin:0;font-size:${fontSize.base};line-height:1.6;color:${C.text}`,
 	link: `display:inline;font-size:${fontSize.base};color:${C.linkColor};text-decoration:none`,
-	headBase: `margin:0;font-weight:normal;line-height:1.3;letter-spacing:0.35px;text-transform:uppercase`,
+	headBase: `margin:0;font-weight:normal;line-height:1.3;letter-spacing:0.5px;text-transform:uppercase`,
 	cell: `padding:0 ${pad.x}px ${pad.blockBtm}px`,
 	borderList: `border-bottom:1px solid ${C.borderList}`,
 	hr: `border:none;border-top:${borderWidth}px solid ${C.border};margin:0`,
@@ -75,7 +73,7 @@ const text = (content) => `
 
 const linkList = (items) => `
   <tr>
-    <td style="padding:0 ${pad.x}px 35px;">
+    <td style="padding:0 ${pad.x + 2}px 35px;">
       <table cellpadding="0" cellspacing="0" border="0" width="100%">
         ${items
 					.map(({ title, url }, i) => {
@@ -86,14 +84,14 @@ const linkList = (items) => `
 						return `
         <tr>
           <td style="border-left:2px solid ${C.accent1};">
-            <a href="${url}" target="_blank" rel="noopener noreferrer" style="display:block;background-color:${C.listItemBg};padding:8px 22px 9px;text-decoration:none;">
+            <a href="${url}" target="_blank" rel="noopener noreferrer" style="display:block;background-color:${C.listItemBg};padding:7px 22px ;text-decoration:none;">
               <table cellpadding="0" cellspacing="0" border="0" width="100%">
                 <tr>
                   <td style="vertical-align:middle;">
                     <span style="font-size:${fontSize.base};line-height:1;color:${C.linkColor};">${title}</span>
                   </td>
                   <td align="right" style="vertical-align:middle;white-space:nowrap;padding-left:10px;">
-                    <span style="font-size:21px;line-height:1;color:${C.linkColor};"> → </span>
+                    <span style="font-size:20px;line-height:1;color:${C.linkColor};"> → </span>
                   </td>
                 </tr>
               </table>
@@ -154,7 +152,7 @@ const compile = (blocks, bg = C.bg) => `<!DOCTYPE html>
   <table width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="${bg}" style="width:100%;background-color:${bg};font-family:Helvetica,Arial,sans-serif;font-size:${fontSize.base};font-weight:normal;">
     <tr>
       <td align="center" style="padding:45px 6px;">
-        <table width="610" cellpadding="0" cellspacing="0" border="0" bgcolor="${C.box}" style="width:100%;max-width:610px;background-color:${C.box};border-radius:20px;overflow:hidden;box-shadow:0 0 10px #000000;border:${borderWidth}px solid ${C.border};">
+        <table width="610" cellpadding="0" cellspacing="0" border="0" bgcolor="${C.box}" style="width:100%;max-width:610px;background-color:${C.box};border-radius:20px;border:${borderWidth}px solid ${C.border};box-shadow:0 0 10px #000000;overflow:hidden;">
           ${blocks.join('\n')}
         </table>
       </td>
@@ -197,7 +195,7 @@ const email = compile([
 		'Розглянули б ви можливість долучитися — як співзасновник, партнер, консультант чи кріейтор окремих проєктів? (всі ідеї — нижче)',
 	),
 
-	h3('Sketch Comedy / Talk Show'),
+	h3('1488'),
 
 	linkList([
 		{ title: 'Бізнес-план', url: 'https://buhowski.dev/vision' },
