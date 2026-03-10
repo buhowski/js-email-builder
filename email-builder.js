@@ -142,17 +142,18 @@ const footer = (copy, links) => {
 
 // ─── COMPILE
 const compile = (blocks, bg = C.bg) => `<!DOCTYPE html>
-<html lang="ukr">
+<html lang="ukr" style="color-scheme:only dark;">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <meta name="color-scheme" content="dark">
   <title>Email</title>
 </head>
 <body style="margin:0;padding:0;background-color:${bg};font-family:Helvetica,Arial,sans-serif;">
   <table width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="${bg}" style="width:100%;background-color:${bg};font-family:Helvetica,Arial,sans-serif;font-size:${fontSize.base};font-weight:normal;">
     <tr>
       <td align="center" style="padding:45px 6px;">
-        <table width="610" cellpadding="0" cellspacing="0" border="0" bgcolor="${C.box}" style="width:100%;max-width:610px;background-color:${C.box};border-radius:20px;border:${borderWidth}px solid ${C.border};box-shadow:0 0 10px #000000;overflow:hidden;">
+        <table width="610" cellpadding="0" cellspacing="0" border="0" bgcolor="${C.box}" style="width:100%;max-width:610px;background-color:${C.box};border-radius:20px;border:${borderWidth}px solid ${C.border};box-shadow:0 0 10px #000000;overflow:hidden;color-scheme: only dark;">
           ${blocks.join('\n')}
         </table>
       </td>
