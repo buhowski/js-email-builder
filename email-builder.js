@@ -2,11 +2,19 @@
 
 import fs from 'fs';
 
+// ─── ICONS
+const icons = {
+	tg: 'https://buhowski.dev/assets/email/tg.png',
+	ig: 'https://buhowski.dev/assets/email/insta.png',
+	li: 'https://buhowski.dev/assets/email/in.png',
+	em: 'https://buhowski.dev/assets/email/maill.png',
+};
+
 // ─── TOKENS
 const C = {
 	bg: '#212121',
 	box: '#1a1a1a',
-	boxFooter: '#121212',
+	boxFooter: '#111111',
 	border: '#383838',
 	accent1: '#e4a65b',
 	accent2: '#e68383',
@@ -24,17 +32,9 @@ const shared = {
 	cell: `padding:0 ${pad.x}px ${pad.blockBtm}px`,
 	headBase: `margin:0;font-weight:normal;line-height:1.3;letter-spacing:0.35px;text-transform:uppercase`,
 	text: `margin:0;font-size:${fontSize.base};line-height:1.6;color:${C.text}`,
-	link: `display:inline;font-size:${fontSize.base};color:${C.linkColor};text-decoration:none`,
-	icon: `display:inline-block;overflow:hidden;border-radius:50%;text-align:center;border:2px solid ${C.border};`,
+	link: `display:inline;font-size:${fontSize.base};color:${C.linkColor};text-decoration:none;`,
+	icon: `display:inline-block;overflow:hidden;border-radius:50%;text-align:center;border:2px solid ${C.border};background-color:${C.box};`,
 	hr: `border:none;border-top:${borderWidth}px solid ${C.border};margin:0`,
-};
-
-// ─── ICONS
-const icons = {
-	tg: 'https://buhowski.dev/assets/email/telegram.png',
-	ig: 'https://buhowski.dev/assets/email/instagram.png',
-	li: 'https://buhowski.dev/assets/email/linkedin.png',
-	em: 'https://buhowski.dev/assets/email/mail.png',
 };
 
 // ─── HELPERS
@@ -117,8 +117,8 @@ const footer = (copy, links) => {
 
 	return `
   <tr>
-    <td bgcolor="${C.boxFooter}" align="center" style="background-color:${C.boxFooter};padding:40px ${pad.x}px;">
-      <p style="margin:0 0 27px;text-align:center;">
+    <td bgcolor="${C.boxFooter}" align="center" style="background-color:${C.boxFooter};padding:35px ${pad.x}px;">
+      <p style="margin:0 0 26px;text-align:center;">
         <a href="https://buhowski.dev" target="_blank" rel="noopener noreferrer" style="font-size:${fontSize.small};color:#666666;text-decoration:none;letter-spacing:1px;padding:8px 10px;">${resolvedCopy}</a>
       </p>
 
