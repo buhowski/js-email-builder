@@ -113,7 +113,7 @@ const divider = () => `
 const footer = (copy, links) => {
 	const year = new Date().getFullYear();
 	const resolvedCopy = copy.replace(/\d{4}/, year);
-	const iconWidth = 50;
+	const iconWidth = 52;
 
 	return `
   <tr>
@@ -128,7 +128,7 @@ const footer = (copy, links) => {
 						.map(
 							({ url, icon }) => `<td style="padding:0 5px;">
             <a href="${url}" target="_blank" rel="noopener noreferrer" style="${shared.icon};">
-              <img src="${icon}" alt="social icon" width="${iconWidth}" height="${iconWidth}" style="display:block;" />
+              <img src="${icon}" alt="contact" width="${iconWidth}" height="${iconWidth}" style="display:block;" />
             </a>
           </td>`,
 						)
