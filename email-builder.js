@@ -1,8 +1,8 @@
-// email-builder.js — compose email from blocks, output email.html
-
 import fs from 'fs';
 
-// ─── ICONS
+// ─── TOKENS & CONFIG
+const currentYear = new Date().getFullYear();
+
 const icons = {
 	tg: 'https://buhowski.dev/assets/email/tg.png',
 	ig: 'https://buhowski.dev/assets/email/insta.png',
@@ -10,7 +10,6 @@ const icons = {
 	em: 'https://buhowski.dev/assets/email/mail.png',
 };
 
-// ─── TOKENS
 const C = {
 	bg: '#212121',
 	box: '#1a1a1a',
@@ -19,82 +18,122 @@ const C = {
 	accent1: '#e4a65b',
 	accent2: '#c47f7f',
 	text: '#c8c8c8',
-	linkColor: '#5199e1',
-	listLinkBg: '#222222',
+	link: '#5199e1',
+	listBg: '#222222',
 };
 
-const pad = { x: 28, blockBtm: 15 };
-const fontSize = { base: '15px', small: '13px', h2: '17px', h3: '16px' };
-const borderWidth = 2;
-const textSpc = 'line-height:1.5;letter-spacing:0.25px;';
-
-// ─── SHARED STYLES
-const shared = {
-	cell: `padding:0 ${pad.x}px ${pad.blockBtm}px`,
-	headBase: `margin:0;font-weight:normal;line-height:1.3;letter-spacing:0.3px;text-transform:uppercase`,
-	text: `margin:0;font-size:${fontSize.base};color:${C.text};${textSpc}`,
-	icon: `display:inline-block;overflow:hidden;border-radius:50%;text-align:center;border:2px solid ${C.border};background-color:${C.box};`,
-	hr: `border:none;border-top:${borderWidth}px solid ${C.border};margin:0`,
-	// ─── list
-	listLink: `vertical-align:middle;font-size:${fontSize.base};line-height:1.2;color:${C.linkColor};`,
-	listPad: `padding:9px 0 9px 22px;`,
-	listPadRight: `padding:9px 22px 9px 10px;`,
-	listArrow: `font-size:20px;`,
-	// ─── bullet
-	bulletDot: `display:block;width:4px;height:4px;border-radius:50%;background-color:${C.accent2};`,
+const UI = {
+	padX: 28,
+	btm: 15,
+	bW: 2,
+	font: "-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif",
 };
+
+// Style Composer
+const css = (...objs) => Object.assign({}, ...objs);
+const s = (obj) =>
+	Object.entries(obj)
+		.map(([k, v]) => `${k}:${v}`)
+		.join(';');
+
+// ─── SHARED STYLE PIECES
+const STYLES = {
+	baseText: {
+		margin: '0',
+		'font-size': '15px',
+		'line-height': '1.5',
+		'letter-spacing': '0.25px',
+		color: C.text,
+	},
+	headBase: {
+		margin: '0',
+		'font-weight': 'normal',
+		'line-height': '1.3',
+		'letter-spacing': '0.3px',
+		'text-transform': 'uppercase',
+	},
+	table: { width: '100%', 'border-collapse': 'collapse' },
+};
+
+// ─── COMPONENT STYLES
+const S = {
+	cell: (t = 0, b = UI.btm) => s({ padding: `${t}px ${UI.padX}px ${b}px` }),
+	h2: s(css(STYLES.headBase, { color: C.accent1, 'font-size': '17px' })),
+	h3: s(css(STYLES.headBase, { color: C.accent2, 'font-size': '16px' })),
+	text: s(STYLES.baseText),
+	hr: s({ border: 'none', 'border-top': `${UI.bW}px solid ${C.border}`, margin: '0' }),
+	// Lists
+	listLink: s({
+		display: 'block',
+		'background-color': C.listBg,
+		'text-decoration': 'none',
+		'letter-spacing': '0.35px',
+	}),
+	listText: s({
+		padding: '9px 0 9px 22px',
+		color: C.link,
+		'font-size': '15px',
+		'line-height': '1.2',
+	}),
+	listArrow: s({
+		padding: '9px 22px 9px 10px',
+		color: C.link,
+		'font-size': '20px',
+		'line-height': '1.2',
+	}),
+	bulletDot: s({
+		display: 'block',
+		width: '4px',
+		height: '4px',
+		'border-radius': '50%',
+		'background-color': C.accent2,
+	}),
+	// Footer
+	icon: s({
+		display: 'inline-block',
+		overflow: 'hidden',
+		'border-radius': '50%',
+		'text-align': 'center',
+		border: `2px solid ${C.border}`,
+		'background-color': C.box,
+	}),
+};
+
+const tableAttr = 'cellpadding="0" cellspacing="0" border="0"';
 
 // ─── BLOCKS
-const header = () => `
-  <tr>
-    <td style="padding:40px ${pad.x}px 0;"></td>
-  </tr>`;
+const header = () => `<tr><td style="padding:40px ${UI.padX}px 0;"></td></tr>`;
 
 const h2 = (content, top = 20) => `
-  <tr>
-    <td style="padding:${top}px ${pad.x}px ${pad.blockBtm}px;">
-      <p style="${shared.headBase};color:${C.accent1};font-size:${fontSize.h2};">${content}</p>
-    </td>
-  </tr>`;
+  <tr><td style="${S.cell(top)}"><p style="${S.h2}">${content}</p></td></tr>`;
 
 const h3 = (content, top = 20) => `
-  <tr>
-    <td style="padding:${top}px ${pad.x}px ${pad.blockBtm}px;">
-      <p style="${shared.headBase};color:${C.accent2};font-size:${fontSize.h3};">${content}</p>
-    </td>
-  </tr>`;
+  <tr><td style="${S.cell(top)}"><p style="${S.h3}">${content}</p></td></tr>`;
 
 const text = (content) => `
-  <tr>
-    <td style="${shared.cell};">
-      <p style="${shared.text};">${content}</p>
-    </td>
-  </tr>`;
+  <tr><td style="${S.cell()}"><p style="${S.text}">${content}</p></td></tr>`;
 
 const linkList = (items) => `
   <tr>
-    <td style="padding:2px ${pad.x}px 20px;">
-      <table cellpadding="0" cellspacing="0" border="0" width="100%">
+    <td style="${S.cell(2, 20)}">
+      <table ${tableAttr} width="100%">
         ${items
-					.map(({ title, url }, i) => {
-						const gap =
-							i < items.length - 1
-								? `<tr><td style="height:6px;font-size:0;line-height:0;">&nbsp;</td></tr>`
-								: '';
-						return `
-        <tr>
-          <td style="border-left:${borderWidth}px solid ${C.accent2};">
-            <a href="${url}" target="_blank" rel="noopener noreferrer" style="display:block;background-color:${C.listLinkBg};text-decoration:none;letter-spacing:0.35px;">
-              <table cellpadding="0" cellspacing="0" border="0" width="100%">
-                <tr>
-                  <td style="${shared.listLink}${shared.listPad}">${title}</td>
-                  <td align="right" style="${shared.listLink}${shared.listArrow}${shared.listPadRight}">→</td>
-                </tr>
-              </table>
-            </a>
-          </td>
-        </tr>${gap}`;
-					})
+					.map(
+						({ title, url }, i) => `
+          ${i > 0 ? '<tr><td style="height:6px;font-size:0;line-height:0;">&nbsp;</td></tr>' : ''}
+          <tr>
+            <td style="border-left:${UI.bW}px solid ${C.accent2};">
+              <a href="${url}" target="_blank" rel="noopener noreferrer" style="${S.listLink}">
+                <table ${tableAttr} width="100%">
+                  <tr>
+                    <td style="${S.listText}">${title}</td>
+                    <td align="right" style="${S.listArrow}">→</td>
+                  </tr>
+                </table>
+              </a>
+            </td>
+          </tr>`,
+					)
 					.join('')}
       </table>
     </td>
@@ -102,80 +141,69 @@ const linkList = (items) => `
 
 const bulletList = (items) => `
   <tr>
-    <td style="padding:0 ${pad.x}px 10px;">
-      <table cellpadding="0" cellspacing="0" border="0" width="100%">
+    <td style="${S.cell(0, 10)}">
+      <table ${tableAttr} width="100%">
         ${items
 					.map(
 						(item) => `
-        <tr>
-          <td style="padding:0 0 ${pad.blockBtm}px;">
-            <table cellpadding="0" cellspacing="0" border="0" width="100%">
-              <tr>
-                <td width="20" style="vertical-align:middle;padding:0 0 1px 2px;">
-                  <span style="${shared.bulletDot}"></span>
-                </td>
-                <td style="${shared.text}">${item}</td>
-              </tr>
-            </table>
-          </td>
-        </tr>`,
+          <tr>
+            <td style="padding:0 0 ${UI.btm}px;">
+              <table ${tableAttr} width="100%">
+                <tr>
+                  <td width="20" style="vertical-align:middle;padding:0 0 1px 2px;"><span style="${S.bulletDot}"></span></td>
+                  <td style="${S.text}">${item}</td>
+                </tr>
+              </table>
+            </td>
+          </tr>`,
 					)
 					.join('')}
       </table>
     </td>
   </tr>`;
 
-const divider = () => `
-  <tr>
-    <td style="padding:25px 0 0;">
-      <hr style="${shared.hr};" />
-    </td>
-  </tr>`;
+const divider = () => `<tr><td style="padding:25px 0 0;"><hr style="${S.hr}" /></td></tr>`;
 
-const footer = (copy, links) => {
-	const year = new Date().getFullYear();
-	const resolvedCopy = copy.replace(/\d{4}/, year);
-	const iconWidth = 51;
-
-	return `
+const footer = (copy, links) => `
   <tr>
     <td bgcolor="${C.boxFooter}" align="center" style="background-color:${C.boxFooter};padding:35px 23px;">
       <p style="margin:0 0 26px;text-align:center;">
-        <a href="https://buhowski.dev" target="_blank" rel="noopener noreferrer" style="font-size:${fontSize.small};color:#666666;text-decoration:none;letter-spacing:1px;padding:8px 10px;">${resolvedCopy}</a>
+        <a href="https://buhowski.dev" target="_blank" rel="noopener noreferrer" style="font-size:13px;color:#666;text-decoration:none;letter-spacing:1px;padding:8px 10px;">
+          ${copy}
+        </a>
       </p>
-      <table cellpadding="0" cellspacing="0" border="0" align="center">
+      <table ${tableAttr} align="center">
         <tr>
           ${links
 						.map(
 							({ url, icon }) => `
-          <td style="padding:0 5px;">
-            <a href="${url}" target="_blank" rel="noopener noreferrer" style="${shared.icon};">
-              <img src="${icon}" alt="contact" width="${iconWidth}" height="${iconWidth}" style="display:block;" />
-            </a>
-          </td>`,
+            <td style="padding:0 5px;">
+              <a href="${url}" target="_blank" rel="noopener noreferrer" style="${S.icon}">
+                <img src="${icon}" alt="contact" width="51" height="51" style="display:block;" />
+              </a>
+            </td>`,
 						)
 						.join('')}
         </tr>
       </table>
     </td>
   </tr>`;
-};
 
 // ─── COMPILE
-const compile = (blocks, bg = C.bg) => `<!DOCTYPE html>
-<html lang="ukr">
+const compile = (blocks) => `<!DOCTYPE html>
+<html lang="uk">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
   <meta name="color-scheme" content="dark">
   <title>Email</title>
 </head>
-<body style="margin:0;padding:0;background-color:${bg};font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;">
-  <table width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="${bg}" style="width:100%;background-color:${bg};">
+<body style="margin:0;padding:0;background-color:${C.bg};font-family:${UI.font};">
+  <table width="100%" ${tableAttr} bgcolor="${C.bg}" style="width:100%;background-color:${C.bg};">
     <tr>
       <td align="center" style="padding:30px 5px;">
-        <table width="600" cellpadding="0" cellspacing="0" border="0" bgcolor="${C.box}" style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;font-size:${fontSize.base};font-weight:normal;width:100%;max-width:600px;background-color:${C.box};border-radius:20px;border:${borderWidth}px solid ${C.border};box-shadow:0 0 10px #000000;overflow:hidden;">
-          ${blocks.join('\n')}
+        <table width="600" ${tableAttr} bgcolor="${C.box}" style="width:100%;max-width:600px;background-color:${C.box};border-radius:20px;border:${UI.bW}px solid ${C.border};box-shadow:0 0 10px #000;overflow:hidden;">
+          ${blocks.join('')}
         </table>
       </td>
     </tr>
@@ -183,10 +211,8 @@ const compile = (blocks, bg = C.bg) => `<!DOCTYPE html>
 </body>
 </html>`;
 
-export { compile, header, h2, h3, text, linkList, divider, footer, icons };
-
-// ─── COMPOSE
-const email = compile([
+// ─── COMPOSE & SAVE
+const emailHtml = compile([
 	header(),
 
 	text('Привіт.'),
@@ -235,7 +261,7 @@ const email = compile([
 
 	divider(),
 
-	footer(`${new Date().getFullYear()} © Olexander Tsiomakh`, [
+	footer(`${currentYear} © Olexander Tsiomakh`, [
 		{ url: 'https://t.me/olexander_tsiomakh', icon: icons.tg },
 		{ url: 'https://www.instagram.com/buhowski', icon: icons.ig },
 		{ url: 'https://www.linkedin.com/in/olexander', icon: icons.li },
@@ -243,4 +269,4 @@ const email = compile([
 	]),
 ]);
 
-fs.writeFileSync('email.html', email);
+fs.writeFileSync('email.html', emailHtml);
