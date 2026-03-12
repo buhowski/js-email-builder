@@ -7,7 +7,7 @@ const icons = {
 	tg: 'https://buhowski.dev/assets/email/tg.png',
 	ig: 'https://buhowski.dev/assets/email/insta.png',
 	li: 'https://buhowski.dev/assets/email/in.png',
-	em: 'https://buhowski.dev/assets/email/maill.png',
+	em: 'https://buhowski.dev/assets/email/mail.png',
 };
 
 // ─── TOKENS
@@ -17,29 +17,32 @@ const C = {
 	boxFooter: '#111111',
 	border: '#383838',
 	accent1: '#e4a65b',
-	accent2: '#e68383',
-	text: '#b2b2b2',
+	accent2: '#c47f7f',
+	text: '#c8c8c8',
 	linkColor: '#5199e1',
-	listItemBg: '#1e2028',
+	listLinkBg: '#222222',
 };
 
 const pad = { x: 28, blockBtm: 15 };
-const fontSize = { base: '15px', small: '12px', h2: '18px', h3: '16px' };
+const fontSize = { base: '15px', small: '13px', h2: '17px', h3: '16px' };
 const borderWidth = 2;
+const textSpc = 'line-height:1.5;letter-spacing:0.25px;';
 
 // ─── SHARED STYLES
 const shared = {
 	cell: `padding:0 ${pad.x}px ${pad.blockBtm}px`,
-	headBase: `margin:0;font-weight:normal;line-height:1.3;letter-spacing:0.35px;text-transform:uppercase`,
-	text: `margin:0;font-size:${fontSize.base};line-height:1.6;color:${C.text}`,
-	link: `display:inline;font-size:${fontSize.base};color:${C.linkColor};text-decoration:none;`,
+	headBase: `margin:0;font-weight:normal;line-height:1.3;letter-spacing:0.3px;text-transform:uppercase`,
+	text: `margin:0;font-size:${fontSize.base};color:${C.text};${textSpc}`,
 	icon: `display:inline-block;overflow:hidden;border-radius:50%;text-align:center;border:2px solid ${C.border};background-color:${C.box};`,
 	hr: `border:none;border-top:${borderWidth}px solid ${C.border};margin:0`,
+	// ─── list
+	listLink: `vertical-align:middle;font-size:${fontSize.base};line-height:1.2;color:${C.linkColor};`,
+	listPad: `padding:9px 0 9px 22px;`,
+	listPadRight: `padding:9px 22px 9px 10px;`,
+	listArrow: `font-size:20px;`,
+	// ─── bullet
+	bulletDot: `display:block;width:4px;height:4px;border-radius:50%;background-color:${C.accent2};`,
 };
-
-// ─── HELPERS
-const link = (label, url) =>
-	`<a href="${url}" target="_blank" rel="noopener noreferrer" style="${shared.link};white-space:nowrap;padding:6px 1px;letter-spacing:0.5px;">${label}</a>`;
 
 // ─── BLOCKS
 const header = () => `
@@ -68,15 +71,9 @@ const text = (content) => `
     </td>
   </tr>`;
 
-const listItem = `vertical-align:middle;font-size:${fontSize.base};line-height: 1;color:${C.linkColor};`;
-const listPadX = 25;
-const listPadY = 8;
-const listPad = `padding:${listPadY}px 0 8px ${listPadX}px;`;
-const listPadRight = `padding:${listPadY}px ${listPadX}px 8px 10px;`;
-
 const linkList = (items) => `
   <tr>
-    <td style="padding:0 ${pad.x + 2}px 35px;">
+    <td style="padding:2px ${pad.x}px 20px;">
       <table cellpadding="0" cellspacing="0" border="0" width="100%">
         ${items
 					.map(({ title, url }, i) => {
@@ -86,18 +83,43 @@ const linkList = (items) => `
 								: '';
 						return `
         <tr>
-          <td style="border-left:2px solid ${C.accent1};">
-            <a href="${url}" target="_blank" rel="noopener noreferrer" style="display:block;background-color:${C.listItemBg};text-decoration:none;letter-spacing:0.4px;">
+          <td style="border-left:${borderWidth}px solid ${C.accent2};">
+            <a href="${url}" target="_blank" rel="noopener noreferrer" style="display:block;background-color:${C.listLinkBg};text-decoration:none;letter-spacing:0.35px;">
               <table cellpadding="0" cellspacing="0" border="0" width="100%">
                 <tr>
-                  <td style="${listItem}${listPad}">${title}</td>
-                  <td align="right" style="${listItem}white-space:nowrap;${listPadRight}font-size:20px;">→</td>
+                  <td style="${shared.listLink}${shared.listPad}">${title}</td>
+                  <td align="right" style="${shared.listLink}${shared.listArrow}${shared.listPadRight}">→</td>
                 </tr>
               </table>
             </a>
           </td>
         </tr>${gap}`;
 					})
+					.join('')}
+      </table>
+    </td>
+  </tr>`;
+
+const bulletList = (items) => `
+  <tr>
+    <td style="padding:0 ${pad.x}px 10px;">
+      <table cellpadding="0" cellspacing="0" border="0" width="100%">
+        ${items
+					.map(
+						(item) => `
+        <tr>
+          <td style="padding:0 0 ${pad.blockBtm}px;">
+            <table cellpadding="0" cellspacing="0" border="0" width="100%">
+              <tr>
+                <td width="20" style="vertical-align:middle;padding:0 0 1px 2px;">
+                  <span style="${shared.bulletDot}"></span>
+                </td>
+                <td style="${shared.text}">${item}</td>
+              </tr>
+            </table>
+          </td>
+        </tr>`,
+					)
 					.join('')}
       </table>
     </td>
@@ -113,20 +135,20 @@ const divider = () => `
 const footer = (copy, links) => {
 	const year = new Date().getFullYear();
 	const resolvedCopy = copy.replace(/\d{4}/, year);
-	const iconWidth = 52;
+	const iconWidth = 51;
 
 	return `
   <tr>
-    <td bgcolor="${C.boxFooter}" align="center" style="background-color:${C.boxFooter};padding:35px ${pad.x}px;">
+    <td bgcolor="${C.boxFooter}" align="center" style="background-color:${C.boxFooter};padding:35px 23px;">
       <p style="margin:0 0 26px;text-align:center;">
         <a href="https://buhowski.dev" target="_blank" rel="noopener noreferrer" style="font-size:${fontSize.small};color:#666666;text-decoration:none;letter-spacing:1px;padding:8px 10px;">${resolvedCopy}</a>
       </p>
-
       <table cellpadding="0" cellspacing="0" border="0" align="center">
         <tr>
           ${links
 						.map(
-							({ url, icon }) => `<td style="padding:0 5px;">
+							({ url, icon }) => `
+          <td style="padding:0 5px;">
             <a href="${url}" target="_blank" rel="noopener noreferrer" style="${shared.icon};">
               <img src="${icon}" alt="contact" width="${iconWidth}" height="${iconWidth}" style="display:block;" />
             </a>
@@ -148,11 +170,11 @@ const compile = (blocks, bg = C.bg) => `<!DOCTYPE html>
   <meta name="color-scheme" content="dark">
   <title>Email</title>
 </head>
-<body style="margin:0;padding:0;background-color:${bg};font-family:Helvetica,Arial,sans-serif;">
-  <table width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="${bg}" style="width:100%;background-color:${bg};font-family:Helvetica,Arial,sans-serif;font-size:${fontSize.base};font-weight:normal;">
+<body style="margin:0;padding:0;background-color:${bg};font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;">
+  <table width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="${bg}" style="width:100%;background-color:${bg};">
     <tr>
-      <td align="center" style="padding:45px 6px;">
-        <table width="600" cellpadding="0" cellspacing="0" border="0" bgcolor="${C.box}" style="width:100%;max-width:600px;background-color:${C.box};border-radius:20px;border:${borderWidth}px solid ${C.border};box-shadow:0 0 10px #000000;overflow:hidden;">
+      <td align="center" style="padding:30px 5px;">
+        <table width="600" cellpadding="0" cellspacing="0" border="0" bgcolor="${C.box}" style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;font-size:${fontSize.base};font-weight:normal;width:100%;max-width:600px;background-color:${C.box};border-radius:20px;border:${borderWidth}px solid ${C.border};box-shadow:0 0 10px #000000;overflow:hidden;">
           ${blocks.join('\n')}
         </table>
       </td>
@@ -161,7 +183,7 @@ const compile = (blocks, bg = C.bg) => `<!DOCTYPE html>
 </body>
 </html>`;
 
-export { compile, header, h2, h3, text, link, linkList, divider, footer, icons };
+export { compile, header, h2, h3, text, linkList, divider, footer, icons };
 
 // ─── COMPOSE
 const email = compile([
@@ -170,42 +192,44 @@ const email = compile([
 	text('Привіт.'),
 
 	text(
-		'Я Олександр — ідейний розробник, сценарист і дослідник. Спроєктував незалежний медіапростір у форматі журналу та соціальної платформи.',
+		'Я Олександр — ідейний розробник, сценарист і дослідник. Створюю незалежний медіапростір і формую коло співзасновників і партнерів, тому пишу з пропозицією творчої та ділової співпраці.',
 	),
-	text('Шукаю співзасновників, партнерів, консультантів і кріейторів різних напрямів.'),
 
-	h2('Про проєкт'),
+	h2('Проєкт'),
 
 	text(
-		'Це розважальне контркультурне медіа, яке поступово еволюціонує у кіновиробництво, геймдев і технологічні розробки.',
+		'Розважальне контркультурне медіа і соціальна платформа еволюціонують у кіновиробництво, геймдев і технологічні розробки. Після цього інтегруються стрімінговий сервіс та ігровий хаб для запуску власних проєктів.',
 	),
+
+	text('Етап — формування команди.'),
 
 	text(
-		'Журнал і соцмережа формують аудиторію та задають авторський контекст, після чого інтегруються стрімінгова платформа та ігровий хаб для запуску власних проєктів.',
+		'Є стратегія, готові сценарії та ідеї для кіно, серіалів, анімації, презентаційних шоу і геймдев проєктів:',
 	),
-
-	text('Я на етапі формування команди — є стратегія, сценарії та концепти.'),
-
-	text(`Презентація: ${link('buhowski.dev/vision', 'https://buhowski.dev/vision')}`),
-
-	h2('Пропозиція'),
-
-	text(
-		"Тут з'являєтесь ви — люди, які мені імпонують, з критичним мисленням, схожою оцінкою реальності та вайбом інтелектуального хуліганства.",
-	),
-
-	text(
-		'Формат співпраці — на ваш вибір: Партнерство з часткою в корпорації та участь в стратегічному розвитку. Співавторство або консультація в конкретному проєкті. Власний напрям всередині екосистеми — з творчим функціоналом і без обмежень.',
-	),
-
-	h3('Інші проєкти'),
 
 	linkList([
-		{ title: 'Журнал / Стратегія', url: 'https://buhowski.dev/mvp' },
-		{ title: 'Проєкти Кіно', url: 'https://buhowski.dev/cinema' },
-		{ title: 'Проєкти Геймдев', url: 'https://buhowski.dev/games' },
-		{ title: 'Презентаційні Шоу', url: 'https://buhowski.dev/self-presentation' },
+		{ title: 'Повна картина / Бізнес-план', url: 'https://buhowski.dev/vision' },
+		{ title: 'Стратегія / Журнал', url: 'https://buhowski.dev/mvp' },
+		{ title: 'Кіновиробництво', url: 'https://buhowski.dev/cinema' },
+		{ title: 'Геймдев', url: 'https://buhowski.dev/games' },
+		{ title: 'Презентаційні шоу', url: 'https://buhowski.dev/self-presentation' },
 	]),
+
+	h2('Шукаю'),
+
+	text(
+		'Співзасновників, партнерів, консультантів і кріейторів із критичним мисленням, схожою оцінкою реальності та вайбом інтелектуального хуліганства.',
+	),
+
+	h2('Пропоную'),
+
+	bulletList([
+		'Партнерство з часткою в екосистемі та участь у стратегічному розвитку.',
+		'Власний напрям всередині платформи — з повним творчим функціоналом і без обмежень.',
+		'Співавторство або консультація проєктів.',
+	]),
+
+	text('Формат — на ваш вибір.'),
 
 	text('Якщо відгукнулось — напишіть. Обговоримо деталі.'),
 
