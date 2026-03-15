@@ -110,7 +110,7 @@ const bulletList = (items) => `
 
 const footer = (copy, links) => `
   <tr>
-    <td bgcolor="${C.boxFooter}" align="center" style="background-color:${C.boxFooter};padding:40px 22px;">
+    <td bgcolor="${C.boxFooter}" align="center" style="background-color:${C.boxFooter};padding:40px 18px;">
       <p style="margin:0 0 26px;text-align:center;letter-spacing:1px;font-size:13px;color:#666;">
         ${copy}
       </p>
