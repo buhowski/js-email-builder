@@ -2,11 +2,10 @@
 **/.DS_Store
 Thumbs.db
 
+.env
+
 node_modules/
 package-lock.json
 
-*_local*.js
+*email-to*.js
 *email*.html
-*email*.txt
-
-.env

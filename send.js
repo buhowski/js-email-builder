@@ -1,7 +1,8 @@
 import 'dotenv/config';
 import nodemailer from 'nodemailer';
 import { htmlToText } from 'html-to-text';
-import { compile, blocks } from './email-builder.js';
+import { compile } from './email-builder.js';
+import { emailText, emailInfo, recipients } from './email-to.js';
 
 const transporter = nodemailer.createTransport({
 	service: 'gmail',
@@ -14,27 +15,26 @@ const transporter = nodemailer.createTransport({
 	},
 });
 
-const html = compile(blocks);
-const plainText = htmlToText(html, {
+const htmlEmail = compile(emailText);
+const plainText = htmlToText(htmlEmail, {
 	wordwrap: 80,
 	selectors: [{ selector: 'img', format: 'skip' }],
 });
 
-const recipients = ['test-1lhf8jfdg@srv1.mail-tester.com', 'olexander.tsiomakh@gmail.com'];
-
-const mailConfig = {
-	from: 'Olexander Tsiomakh',
-	subject: 'Партнерство: Журнал, Контркультура, Кіно, Геймдев, Технології',
-};
-
-for (const to of recipients) {
-	await transporter.sendMail({
-		from: `${mailConfig.from} <${process.env.GMAIL_USER}>`,
-		to,
-		subject: mailConfig.subject,
-		html,
-		text: plainText,
-	});
-
-	console.log(`Sent → ${to}`);
+async function main() {
+	for (const to of recipients) {
+		await transporter.sendMail({
+			from: `${emailInfo.from} <${process.env.GMAIL_USER}>`,
+			to,
+			subject: emailInfo.subject,
+			html: htmlEmail,
+			text: plainText,
+			headers: {
+				'List-Unsubscribe': '<mailto:olexander.tsiomakh@gmail.com?subject=unsubscribe>',
+			},
+		});
+		console.log(`Sent → ${to}`);
+	}
 }
+
+main().catch(console.error);

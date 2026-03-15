@@ -1,13 +1,31 @@
 import fs from 'fs';
-import { icons } from './assets/icons.js';
 
 const currentYear = new Date().getFullYear();
+
+const icons = {
+	tg: {
+		src: 'https://buhowski.dev/assets/email/tg.png',
+		alt: 'Telegram',
+	},
+	ig: {
+		src: 'https://buhowski.dev/assets/email/insta.png',
+		alt: 'Instagram',
+	},
+	li: {
+		src: 'https://buhowski.dev/assets/email/in.png',
+		alt: 'LinkedIn',
+	},
+	em: {
+		src: 'https://buhowski.dev/assets/email/mail.png',
+		alt: 'Gmail',
+	},
+};
 
 const C = {
 	bg: '#212121',
 	box: '#1a1a1a',
 	boxFooter: '#111111',
-	border: '#383838',
+	border: '#393939',
 	accent1: '#e4a65b',
 	accent2: '#c47f7f',
 	text: '#c8c8c8',
@@ -93,10 +111,8 @@ const bulletList = (items) => `
 const footer = (copy, links) => `
   <tr>
     <td bgcolor="${C.boxFooter}" align="center" style="background-color:${C.boxFooter};padding:40px 22px;">
-      <p style="margin:0 0 26px;text-align:center;">
-        <a href="https://buhowski.dev" target="_blank" rel="noopener noreferrer" style="font-size:13px;color:#666;text-decoration:none;letter-spacing:1px;font-weight:bold;">
-          ${copy}
-        </a>
+      <p style="margin:0 0 26px;text-align:center;letter-spacing:1px;font-size:13px;color:#666;">
+        ${copy}
       </p>
       <table ${tableAttr} align="center">
         <tr>
@@ -116,11 +132,12 @@ const footer = (copy, links) => `
   </tr>`;
 
 const compile = (blocks) => `<!DOCTYPE html>
-<html lang="uk">
+<html lang="uk" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1.0">
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <meta name="x-apple-disable-message-reformatting">
   <meta name="color-scheme" content="dark">
   <title></title>
 </head>
@@ -137,7 +154,17 @@ const compile = (blocks) => `<!DOCTYPE html>
 </body>
 </html>`;
 
-const blocks = [
+// Email Info
+const emailInfo = {
+	from: 'Olexander Tsiomakh',
+	subject: 'Тема',
+};
+
+// Send Email To
+const recipients = ['МИЛО'];
+
+// HTML EMAIL TEXT EXAMPLE
+const emailText = [
 	header(),
 	text('Привіт.'),
 	text(
@@ -178,10 +205,20 @@ const blocks = [
 	]),
 ];
 
-export { compile, blocks };
+export {
+	compile,
+	currentYear,
+	header,
+	h2,
+	icons,
+	text,
+	divider,
+	linkList,
+	bulletList,
+	footer,
+	recipients,
+	emailInfo,
+};
 
-// run directly: node email-builder.js
-if (process.argv[1]?.endsWith('email-builder.js')) {
-	const emailHtml = compile(blocks);
-	fs.writeFileSync('email.html', emailHtml);
-}
+// Output HTML Email
+fs.writeFileSync('index.html', compile(emailText));
