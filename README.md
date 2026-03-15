@@ -18,8 +18,6 @@ npm run send       # send email via Gmail OAuth2
 ```
 html-email-builder/
 ├── .env                  # credentials (never commit)
-├── .env.example          # credentials template
-├── .gitignore
 ├── email-builder.js      # HTML compiler
 ├── index.html            # build output
 ├── send.js               # Gmail sender via OAuth2

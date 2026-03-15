@@ -3,10 +3,16 @@ import fs, { existsSync } from 'fs';
 import { execSync } from 'child_process';
 import chokidar from 'chokidar';
 
-const PORT = 3030;
+const PORT = 666;
 
 // source file for build
-const SOURCE = existsSync('email-to.js') ? 'email-to.js' : 'email-builder.js';
+const SOURCE =
+	process.env.SOURCE ||
+	fs
+		.readdirSync('.')
+		.sort()
+		.find((f) => f.startsWith('_email_') && f.endsWith('.js')) ||
+	'email-builder.js';
 
 // inject live reload script
 const inject = (html) =>
@@ -55,7 +61,7 @@ http
 					? 'index.html'
 					: req.url.slice(1)
 				: req.url === '/'
-					? 'email-to.html'
+					? '_generated.html'
 					: req.url.slice(1);
 
 		if (!file.endsWith('.html')) file += '.html';

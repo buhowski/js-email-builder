@@ -1,9 +1,9 @@
 import 'dotenv/config';
+import fs from 'fs';
 import nodemailer from 'nodemailer';
 import { htmlToText } from 'html-to-text';
-import { compile } from './email-builder.js';
-// import { emailText, emailInfo, recipients } from './email-builder.js';
-import { emailText, emailInfo, recipients } from './email-to.js';
+// import { emailInfo, recipients } from './email-builder.js';
+import { emailInfo, recipients } from './email-to.js';
 
 const transporter = nodemailer.createTransport({
 	service: 'gmail',
@@ -16,7 +16,7 @@ const transporter = nodemailer.createTransport({
 	},
 });
 
-const htmlEmail = compile(emailText);
+const htmlEmail = fs.readFileSync('_generated.html', 'utf8');
 const plainText = htmlToText(htmlEmail, {
 	wordwrap: 80,
 	selectors: [{ selector: 'img', format: 'skip' }],
@@ -34,6 +34,7 @@ async function main() {
 				'List-Unsubscribe': '<mailto:olexander.tsiomakh@gmail.com?subject=unsubscribe>',
 			},
 		});
+
 		console.log(`Sent → ${to}`);
 	}
 }

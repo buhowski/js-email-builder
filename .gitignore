@@ -7,5 +7,5 @@ Thumbs.db
 node_modules/
 package-lock.json
 
-*email-to*.js
-*email*.html
+*email*.js
+_generated.html
