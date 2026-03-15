@@ -207,6 +207,9 @@ const emailText = [
 
 export {
 	compile,
+	emailText,
+	recipients,
+	emailInfo,
 	currentYear,
 	header,
 	h2,
@@ -216,8 +219,6 @@ export {
 	linkList,
 	bulletList,
 	footer,
-	recipients,
-	emailInfo,
 };
 
 // Output HTML Email

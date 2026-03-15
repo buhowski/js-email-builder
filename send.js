@@ -2,6 +2,7 @@ import 'dotenv/config';
 import nodemailer from 'nodemailer';
 import { htmlToText } from 'html-to-text';
 import { compile } from './email-builder.js';
+// import { emailText, emailInfo, recipients } from './email-builder.js';
 import { emailText, emailInfo, recipients } from './email-to.js';
 
 const transporter = nodemailer.createTransport({
