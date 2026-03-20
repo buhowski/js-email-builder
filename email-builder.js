@@ -7,11 +7,11 @@ const C = {
 	box: '#1a1a1a',
 	boxFooter: '#111111',
 	border: '#393939',
-	accent1: '#e4a65b',
-	accent2: '#c47f7f',
+	accent1: '#e8a85a',
+	accent2: '#d0887d',
 	text: '#c8c8c8',
-	link: '#5199e1',
-	listBg: '#222222',
+	link: '#4d9fc4',
+	listBg: '#141414',
 };
 
 const UI = {
@@ -30,8 +30,8 @@ const S = {
 	h3: `color:${C.accent1};font-size:16px;${UI.title}`,
 	text: `margin:0;font-size:${UI.fSzBase};line-height:1.5;letter-spacing:0.22px;color:${C.text}`,
 	hr: `border:none;border-top:${UI.bW}px solid ${C.border};margin:0`,
-	listLink: `display:block;background-color:${C.listBg};text-decoration:none`,
-	listText: `padding:11px 0 11px 22px;color:${C.link};font-size:${UI.fSzBase};line-height:1.22;letter-spacing:0.35px`,
+	listLink: `display:block;text-decoration:none;background-color:${C.listBg}`,
+	listText: `padding:13px 0 13px 22px;color:${C.link};font-size:${UI.fSzBase};line-height:1.22;letter-spacing:0.35px`,
 	icon: `display:inline-block;border-radius:50%;border:2px solid ${C.border};background-color:${C.box}`,
 };
 
@@ -72,14 +72,13 @@ export const linkList = (items) => `
         ${items
 					.map(
 						({ title, url }, i) => `
-          ${i > 0 ? '<tr><td style="height:6px;font-size:0;line-height:0;">&nbsp;</td></tr>' : ''}
           <tr>
-            <td style="border-left:${UI.bW}px solid ${C.accent2};">
+            <td style="border-left:2px solid ${C.link};${i < items.length - 1 ? `border-bottom:1px solid ${C.border};` : ''}">
               <a href="${url}" target="_blank" rel="noopener noreferrer" style="${S.listLink}">
                 <table ${tableAttr} width="100%">
                   <tr>
                     <td style="${S.listText}">${title}</td>
-                    <td align="right" style="padding:0 22px 0 0;color:${C.link};font-size: 21px;">→</td>
+                    <td align="right" style="padding:0 22px 0 10px;color:${C.accent1};font-size:21px;">→</td>
                   </tr>
                 </table>
               </a>
