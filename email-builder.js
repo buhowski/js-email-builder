@@ -20,14 +20,13 @@ const UI = {
 	bW: 2,
 	font: "-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif",
 	fSzBase: '15px',
-	title:
-		'margin:0;font-weight:normal;text-transform:uppercase;line-height:1.3;letter-spacing:0.4px',
+	title: 'margin:0;font-weight:normal;text-transform:uppercase;line-height:1.3;letter-spacing:1px',
 };
 
 const S = {
 	cell: (t = 0, b = UI.btm) => `padding: ${t}px ${UI.padX}px ${b}px`,
 	h2: `color:${C.accent1};font-size:18px;${UI.title}`,
-	h3: `color:${C.accent2};font-size:16px;${UI.title}`,
+	h3: `color:${C.accent2};font-size:15px;${UI.title}`,
 	text: `margin:0;font-size:${UI.fSzBase};line-height:1.5;letter-spacing:0.22px;color:${C.text}`,
 	hr: `border:none;border-top:${UI.bW}px solid ${C.border};margin:0`,
 	listLink: `display:block;text-decoration:none;background-color:${C.listBg}`,
@@ -118,8 +117,10 @@ export const divider = () => `<tr><td style="padding:25px 0 0;"><hr style="${S.h
 export const footer = (links) => `
   <tr>
     <td bgcolor="${C.boxFooter}" align="center" style="background-color:${C.boxFooter};padding:40px 18px;">
-      <p style="margin:0 0 26px;text-align:center;letter-spacing:1px;font-size:13px;color:#666;">
-        ${new Date().getFullYear()} © Olexander Tsiomakh
+      <p style="margin:0 0 26px;text-align:center;">
+        <a href="https://buhowski.dev" target="_blank" rel="noopener noreferrer" style="text-decoration:none;letter-spacing:1.1px;font-size:13px;color:#666666;padding:10px;">
+          ${new Date().getFullYear()} © Olexander Tsiomakh
+        </a>
       </p>
 
       <table ${tableAttr} align="center">
@@ -174,39 +175,48 @@ export const emailInfo = {
 // HTML EMAIL TEXT EXAMPLE
 export const emailText = [
 	header(),
+	// h2('[Шукаю співзасновників і партнерів]', 0),
+
 	text('Привіт.'),
 
 	text(
-		'Я Олександр — ідейний розробник, сценарист і дослідник. Створюю незалежний медіапростір і формую коло співзасновників, тому пишу з пропозицією творчої та ділової співпраці.',
+		'Я Олександр — ідейний розробник, сценарист і дослідник. Створюю незалежний медіапростір і пишу з пропозицією творчої та ділової співпраці для формування кола партнерів.',
 	),
 
-	h2('Проєкт'),
+	h2('ПРОЄКТ'),
 
 	text(
-		'Розважальне контркультурне медіа і соціальна платформа масштабуються у кіновиробництво, геймдев і технологічні розробки. Наступний крок — запуск стрімінгового сервісу та ігрового хабу для запуску власних проєктів.',
+		'Розважальний контркультурний журнал та соціальна платформа масштабуються у кіновиробництво, геймдев і технологічні розробки.',
 	),
+
+	text('Наступний крок — запуск стрімінгового сервісу та ігрового хабу під власні проєкти.'),
 
 	text('Зараз на етапі формування команди.'),
 
 	text(
-		'Є стратегія, готові сценарії та ідеї для кіно, серіалів, анімації, презентаційних шоу і геймдев проєктів:',
+		'Є детальна презентація, стратегія та готові сценарії. Концепти для кіно, серіалів, анімації, пілотних шоу і геймдев-проєктів.',
 	),
 
+	h3('ГОЛОВНА ПРЕЗЕНТАЦІЯ'),
+
+	linkList([{ title: 'Повна картина / Бізнес-план', url: 'https://buhowski.dev/vision' }]),
+
+	h3('ДЕТАЛІ'),
+
 	linkList([
-		{ title: 'Повна картина / Бізнес-план', url: 'https://buhowski.dev/vision' },
 		{ title: 'Стратегія / Журнал', url: 'https://buhowski.dev/mvp' },
 		{ title: 'Кіновиробництво', url: 'https://buhowski.dev/cinema' },
 		{ title: 'Геймдев', url: 'https://buhowski.dev/games' },
 		{ title: 'Презентаційні шоу', url: 'https://buhowski.dev/self-presentation' },
 	]),
 
-	h2('Шукаю'),
+	h2('ШУКАЮ'),
 
 	text(
 		'Співзасновників, партнерів і творців з критичним мисленням, схожою оцінкою реальності та вайбом інтелектуального хуліганства.',
 	),
 
-	h2('Пропоную'),
+	h2('ПРОПОНУЮ'),
 
 	bulletList([
 		'Рівноправне партнерство з часткою в екосистемі та участь у формуванні стратегії.',
