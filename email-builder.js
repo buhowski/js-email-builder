@@ -36,23 +36,23 @@ const S = {
 
 export const icons = {
 	tg: {
-		src: 'https://buhowski.dev/assets/email/tg.png',
+		src: './assets/email/tg.png',
 		alt: 'Telegram',
 	},
 	ig: {
-		src: 'https://buhowski.dev/assets/email/insta.png',
+		src: './assets/email/insta.png',
 		alt: 'Instagram',
 	},
 	li: {
-		src: 'https://buhowski.dev/assets/email/in.png',
+		src: './assets/email/in.png',
 		alt: 'LinkedIn',
 	},
 	em: {
-		src: 'https://buhowski.dev/assets/email/mail.png',
+		src: './assets/email/mail.png',
 		alt: 'Gmail',
 	},
 	site: {
-		src: 'https://buhowski.dev/assets/email/site.png',
+		src: './assets/email/site.png',
 		alt: 'Website',
 	},
 };
