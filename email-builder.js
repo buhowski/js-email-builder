@@ -21,13 +21,13 @@ const UI = {
 	font: "-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif",
 	fSzBase: '15px',
 	title:
-		'margin:0;font-weight:normal;text-transform:uppercase;line-height:1.3;letter-spacing:0.3px',
+		'margin:0;font-weight:normal;text-transform:uppercase;line-height:1.3;letter-spacing:0.4px',
 };
 
 const S = {
 	cell: (t = 0, b = UI.btm) => `padding: ${t}px ${UI.padX}px ${b}px`,
 	h2: `color:${C.accent1};font-size:18px;${UI.title}`,
-	h3: `color:${C.accent1};font-size:16px;${UI.title}`,
+	h3: `color:${C.accent2};font-size:16px;${UI.title}`,
 	text: `margin:0;font-size:${UI.fSzBase};line-height:1.5;letter-spacing:0.22px;color:${C.text}`,
 	hr: `border:none;border-top:${UI.bW}px solid ${C.border};margin:0`,
 	listLink: `display:block;text-decoration:none;background-color:${C.listBg}`,
@@ -59,7 +59,7 @@ export const header = () => `<tr><td style="padding:40px ${UI.padX}px 0;"></td><
 export const h2 = (content, top = 20) =>
 	`<tr><td style="${S.cell(top)}"><h2 style="${S.h2}">${content}</h2></td></tr>`;
 
-export const h3 = (content, top = 20) => `
+export const h3 = (content, top = 10) => `
   <tr><td style="${S.cell(top)}"><p style="${S.h3}">${content}</p></td></tr>`;
 
 export const text = (content) =>
