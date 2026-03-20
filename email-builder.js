@@ -51,6 +51,10 @@ export const icons = {
 		src: 'https://buhowski.dev/assets/email/mail.png',
 		alt: 'Gmail',
 	},
+	site: {
+		src: 'https://buhowski.dev/assets/email/site.png',
+		alt: 'Website',
+	},
 };
 
 export const header = () => `<tr><td style="padding:40px ${UI.padX}px 0;"></td></tr>`;
